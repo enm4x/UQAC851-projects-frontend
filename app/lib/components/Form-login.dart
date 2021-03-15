@@ -3,7 +3,8 @@ import 'package:app/Tools/auth.dart';
 import 'package:app/models/user.dart';
 
 class FormLogin extends StatefulWidget {
-  const FormLogin({Key? key}) : super(key: key);
+  const FormLogin({Key? key, required this.userObj}) : super(key: key);
+  final User userObj;
 
   @override
   _FormLoginWidgetState createState() => _FormLoginWidgetState();
@@ -14,8 +15,6 @@ class _FormLoginWidgetState extends State<FormLogin> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailInputController = TextEditingController();
   final pwdInputController = TextEditingController();
-  String authToken = '';
-  var currentUser = new User(id: 0, email: "", token: "", firstName: "", lastName: "");
 
   @override
   void dispose() {
@@ -25,9 +24,9 @@ class _FormLoginWidgetState extends State<FormLogin> {
     super.dispose();
   }
 
-  void updateUser(String tok) {
-    currentUser.email = emailInputController.text;
-    currentUser.token = tok;
+  void updateUserObj(String tok) {
+    widget.userObj.email = emailInputController.text;
+    widget.userObj.token = tok;
   }
 
   @override
@@ -84,8 +83,9 @@ class _FormLoginWidgetState extends State<FormLogin> {
                     // the form is invalid.
                     if (_formKey.currentState!.validate()) {
                       var x = await userConnection(emailInputController.text, pwdInputController.text);
-                      setState(() => {updateUser(x)});
-                      print(currentUser);
+                      setState(() => {updateUserObj(x)});
+                      // for debug purposes
+                      // print("@: ${widget.userObj.email} Jwt: ${widget.userObj.token}");
                     }
                   },
                   child: const Text('Submit'),
