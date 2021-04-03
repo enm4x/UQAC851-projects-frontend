@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app/Tools/auth.dart';
 import 'package:app/models/user.dart';
+import 'package:app/screens/dashboard.dart';
 
 class FormLogin extends StatefulWidget {
   const FormLogin({Key? key, required this.userObj}) : super(key: key);
@@ -34,20 +35,24 @@ class _FormLoginWidgetState extends State<FormLogin> {
     return Form(
         key: _formKey,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 50),
+          padding: EdgeInsets.all(50),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TextFormField(
                 controller: emailInputController,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Color(0xFF2e3440)),
                 decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
+                    contentPadding: EdgeInsets.all(20),
+                    filled: true,
+                    fillColor: Color(0xFFd8dee9),
+                    border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
+                    hintStyle: TextStyle(color: Color(0xFF2e3440)),
                     hintText: "Email adress",
                     prefixIcon: Icon(
                       Icons.email,
-                      color: Colors.white,
+                      color: Color(0xFF2e3440),
                     )),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
@@ -56,17 +61,21 @@ class _FormLoginWidgetState extends State<FormLogin> {
                   return null;
                 },
               ),
+              SizedBox(height: 20),
               TextFormField(
                 controller: pwdInputController,
                 obscureText: true,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Color(0xFF2e3440)),
                 decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
+                    filled: true,
+                    fillColor: Color(0xFFd8dee9),
+                    border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
+                    hintStyle: TextStyle(color: Color(0xFF2e3440)),
                     hintText: "Password",
                     prefixIcon: Icon(
                       Icons.lock,
-                      color: Colors.white,
+                      color: Color(0xFF2e3440),
                     )),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
@@ -76,21 +85,31 @@ class _FormLoginWidgetState extends State<FormLogin> {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 50, vertical: 15))),
                   onPressed: () async {
-                    // Validate will return true if the form is valid, or false if
-                    // the form is invalid.
                     if (_formKey.currentState!.validate()) {
                       var x = await userConnection(emailInputController.text, pwdInputController.text);
                       setState(() => {updateUserObj(x)});
                       // for debug purposes
                       // print("@: ${widget.userObj.email} Jwt: ${widget.userObj.token}");
                     }
+                    if (widget.userObj.email != "") {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DashboardPage(userObj: widget.userObj)),
+                      );
+                    }
                   },
-                  child: const Text('Submit'),
+                  child: const Text('Login'),
                 ),
               ),
+              Text(
+                "Click here to register",
+                style: TextStyle(color: Color(0xFFd8dee9)),
+              )
             ],
           ),
         ));

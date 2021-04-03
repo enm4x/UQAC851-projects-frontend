@@ -7,15 +7,15 @@ import 'package:app/models/user.dart';
 // import 'dart:async';
 // import 'dart:convert';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  LoginPage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LoginPageState extends State<LoginPage> {
   var currentUser = new User(id: 0, email: "", token: "", firstName: "", lastName: "");
 
   @override
@@ -28,11 +28,16 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FormLogin(userObj: currentUser),
-                ],
+                children: <Widget>[FormLogin(userObj: currentUser)],
               ),
             ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              print("user info \n@: ${currentUser.email} \ntoken : ${currentUser.token}");
+            },
+            child: const Icon(Icons.info),
+            backgroundColor: Colors.green,
           ),
         ));
   }
