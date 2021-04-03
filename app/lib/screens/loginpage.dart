@@ -28,7 +28,13 @@ class _LoginPageState extends State<LoginPage> {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[FormLogin(userObj: currentUser)],
+                children: <Widget>[
+                  Image.asset(
+                    'assets/img/logo.png',
+                    width: 200,
+                  ),
+                  FormLogin(userObj: currentUser)
+                ],
               ),
             ),
           ),
