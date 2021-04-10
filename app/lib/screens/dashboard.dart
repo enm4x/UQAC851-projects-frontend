@@ -22,7 +22,7 @@ class _DashboardPageState extends State<DashboardPage> {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[Text("Welcome ${widget.userObj.email}")],
+                children: <Widget>[Text("Welcome ${widget.userObj.firstName}")],
               ),
             ),
           ),

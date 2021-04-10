@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:app/Tools/auth.dart';
 import 'package:app/models/user.dart';
 import 'package:app/screens/dashboard.dart';
+import 'package:app/screens/signuppage.dart';
 
 class FormLogin extends StatefulWidget {
   const FormLogin({Key? key, required this.userObj}) : super(key: key);
@@ -25,7 +28,7 @@ class _FormLoginWidgetState extends State<FormLogin> {
     super.dispose();
   }
 
-  void updateUserObj(String tok) {
+  void updateUserToken(String tok) {
     widget.userObj.email = emailInputController.text;
     widget.userObj.token = tok;
   }
@@ -90,26 +93,40 @@ class _FormLoginWidgetState extends State<FormLogin> {
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 50, vertical: 15))),
                   onPressed: () async {
+                    final snackLoginError = SnackBar(
+                      content: Text("Error while login"),
+                      behavior: SnackBarBehavior.floating,
+                    );
                     if (_formKey.currentState!.validate()) {
-                      var x = await userConnection(emailInputController.text, pwdInputController.text);
-                      setState(() => {updateUserObj(x)});
-                      // for debug purposes
-                      // print("@: ${widget.userObj.email} Jwt: ${widget.userObj.token}");
-                    }
-                    if (widget.userObj.email != "") {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DashboardPage(userObj: widget.userObj)),
-                      );
+                      await userConnection(emailInputController.text, pwdInputController.text)
+                          .then((value) => {
+                                setState(() => {updateUserToken(value)}),
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => DashboardPage(userObj: widget.userObj)),
+                                )
+                              })
+                          .catchError((e) {
+                        print("Got error : $e");
+                        ScaffoldMessenger.of(context).showSnackBar(snackLoginError);
+                      });
                     }
                   },
                   child: const Text('Login'),
                 ),
               ),
-              Text(
-                "Click here to register",
-                style: TextStyle(color: Color(0xFFd8dee9)),
-              )
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignupPage(
+                                  title: "Signin page",
+                                  userObj: widget.userObj,
+                                )));
+                  },
+                  child: Text("Click here to register"),
+                  style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(Colors.white))),
             ],
           ),
         ));
