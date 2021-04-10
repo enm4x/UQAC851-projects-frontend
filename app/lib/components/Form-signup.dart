@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/Tools/auth.dart';
 import 'package:app/models/user.dart';
-import 'package:app/screens/dashboard.dart';
 
 class FormSignup extends StatefulWidget {
   const FormSignup({Key? key, required this.userObj}) : super(key: key);
@@ -29,14 +28,27 @@ class _FormSignupWidgetState extends State<FormSignup> {
     super.dispose();
   }
 
-  Future<int> performRegistration(String firstname, String lastname, String email, String password) async {
+  Future<String> performRegistration(String firstname, String lastname, String email, String password) async {
     setState(() => {updateUserObj()});
-    await userRegistration(widget.userObj.email, pwdInputController.text);
-    print("registration is sucessful");
-    await userConnection(widget.userObj.email, pwdInputController.text).then((value) => widget.userObj.token = value);
-    print("userconnection was succesful");
-    await updateUserInfo(widget.userObj);
-    return 0;
+    await userRegistration(widget.userObj.email, pwdInputController.text).then(
+        (value) async => {
+              print("registration is sucessful"),
+              await userConnection(widget.userObj.email, pwdInputController.text)
+                  .then((value) async => {
+                        widget.userObj.token = value,
+                        print("userconnection was succesful"),
+                        await updateUserInfo(widget.userObj).catchError((errorUpdateUserInfo) {
+                          throw errorUpdateUserInfo;
+                        })
+                      })
+                  .catchError((errorConnectUser) {
+                throw errorConnectUser;
+              }),
+            }, onError: (errorUserRegistration) {
+      throw errorUserRegistration;
+    });
+
+    throw "Succes";
   }
 
   void updateUserObj() {
@@ -157,7 +169,7 @@ class _FormSignupWidgetState extends State<FormSignup> {
                     );
 
                     final snackRegistrationError = SnackBar(
-                      content: Text("You've been registered succesfuly"),
+                      content: Text("Error while doing registration"),
                       behavior: SnackBarBehavior.floating,
                     );
                     if (_formKey.currentState!.validate()) {
@@ -168,7 +180,7 @@ class _FormSignupWidgetState extends State<FormSignup> {
                                 Navigator.pop(context)
                               })
                           .catchError((e) {
-                        print("$e");
+                        print("error is : $e");
                         print("perform registration error");
                         ScaffoldMessenger.of(context).showSnackBar(snackRegistrationError);
                       });

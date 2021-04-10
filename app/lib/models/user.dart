@@ -1,5 +1,3 @@
-import 'package:crypto/crypto.dart';
-
 class User {
   int id;
   String email;
