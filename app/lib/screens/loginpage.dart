@@ -38,13 +38,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              print("user info \n@: ${currentUser.email} \ntoken : ${currentUser.token}");
-            },
-            child: const Icon(Icons.info),
-            backgroundColor: Colors.green,
-          ),
         ));
   }
 }
