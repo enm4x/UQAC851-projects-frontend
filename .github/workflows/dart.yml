@@ -27,6 +27,13 @@ jobs:
       - uses: subosito/flutter-action@v1.4.0
         with:
           flutter-version: '2.0.1'
+          
+      - name: Create env file
+        working-directory: ./app
+        run: |
+          touch .env
+          echo URL_PROD=${{ secrets.URL_PROD }} >> .env
+          cat .env        
 
       - name: Install dependencies
         working-directory: ./app
