@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:app/models/user.dart';
 import 'package:app/components/logocontainer.dart';
-import 'package:app/Tools/auth.dart';
 import 'package:app/components/Form-signup.dart';
 
 class SignupPage extends StatefulWidget {
