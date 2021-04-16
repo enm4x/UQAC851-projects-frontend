@@ -1,5 +1,6 @@
+import 'package:app/screens/BalancePage.dart';
 import 'package:flutter/material.dart';
-import 'package:app/screens/loginpage.dart';
+// import 'package:app/screens/loginpage.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:async';
 // import 'dart:convert';
@@ -16,8 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(
-        title: "Login to Prixbank",
+      home: BalancePage(
       ),
     );
   }
