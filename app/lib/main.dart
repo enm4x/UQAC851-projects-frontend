@@ -19,8 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: LoginPage(
-        title: "Login to Prixbank",
-      ),
+        title: "Login to Prixbank"),
     );
   }
 }
