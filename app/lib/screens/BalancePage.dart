@@ -1,3 +1,4 @@
+import 'package:app/components/AppDrawer.dart';
 import 'package:app/components/bottombar.dart';
 import 'package:app/Tools/methods.dart';
 import 'package:app/screens/StatementsPage.dart';
@@ -15,6 +16,7 @@ class BalancePage extends StatelessWidget {
             statusBarColor: Colors.transparent,
             statusBarIconBrightness: Brightness.light),
         child: Scaffold(
+          drawer: AppDrawer(),
           appBar: AppBar(
               iconTheme: IconThemeData(
                 color: Colors.blue, //change your color here
