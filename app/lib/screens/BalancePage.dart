@@ -1,5 +1,4 @@
 import 'package:app/components/AppDrawer.dart';
-import 'package:app/components/bottombar.dart';
 import 'package:app/Tools/methods.dart';
 import 'package:app/screens/StatementsPage.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,9 +53,6 @@ class BalancePage extends StatelessWidget {
               color: Color(0xFF2e3440),
             ),
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomBar(),
         ));
   }
 }
