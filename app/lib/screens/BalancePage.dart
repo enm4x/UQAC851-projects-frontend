@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() => runApp(BalancePage());
-
 class BalancePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
