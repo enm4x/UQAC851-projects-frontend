@@ -47,8 +47,7 @@ class _FormLoginWidgetState extends State<FormLogin> {
                     contentPadding: EdgeInsets.all(20),
                     filled: true,
                     fillColor: Color(0xFFd8dee9),
-                    border: new OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
+                    border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
                     hintStyle: TextStyle(color: Color(0xFF2e3440)),
                     hintText: "Email adress",
                     prefixIcon: Icon(
@@ -70,8 +69,7 @@ class _FormLoginWidgetState extends State<FormLogin> {
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Color(0xFFd8dee9),
-                    border: new OutlineInputBorder(
-                        borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
+                    border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
                     hintStyle: TextStyle(color: Color(0xFF2e3440)),
                     hintText: "Password",
                     prefixIcon: Icon(
@@ -88,8 +86,7 @@ class _FormLoginWidgetState extends State<FormLogin> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: ElevatedButton(
-                  style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 50, vertical: 15))),
+                  style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 50, vertical: 15))),
                   onPressed: () async {
                     final snackLoginError = SnackBar(
                       content: Text("Error while login"),
