@@ -13,7 +13,6 @@ Future<String> userConnection(String userCredentials, String userPassword) async
   try {
     var response = await client.post(Uri.https(env["URL_PROD"].toString(), "/auth/login"),
         body: {'email': '$userCredentials', 'password': '${pwdHash.toString()}'});
-
     if (response.statusCode == 200) {
       Map res = jsonDecode(response.body);
       return res['token'];
