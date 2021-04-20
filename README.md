@@ -34,11 +34,11 @@ git clone git@github.com:maxdvlg/UQAC851-projects-frontend.git
 You must create a .env file containing the local variable that will allow the project to be built with the correct sources
 
 ```
-//Create a .env file a the root of the project
+# Create a .env file a the root of the project
 touch app/.env
 
-//Define the variable URL_PROD
-//URL_PROD=myapiadress.com:port in the .env file
+# Define the variable URL_PROD
+# URL_PROD=myapiadress.com:port in the .env file
 echo URL_PROD=myapiadress.com:port >> app/.env
 ```
 
@@ -50,20 +50,20 @@ echo URL_PROD=myapiadress.com:port >> app/.env
 ### Execute all tests available
 
 ```
-//Change directory to the root folder
+# Change directory to the root folder
 cd .../app
 
-//Perform global test
+# Perform global test
 $ flutter test
 
 ```
 ### Execute a specific test
 
 ```
-//Change directory to the root folder
+# Change directory to the root folder
 cd .../app
 
-//Perform specific test
+# Perform specific test
 flutter test test/myspecificfunctions_test.dart
 
 ```
