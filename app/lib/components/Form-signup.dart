@@ -39,23 +39,11 @@ class _FormSignupWidgetState extends State<FormSignup> {
 
   Future<String> performRegistration(String firstname, String lastname, String email, String password) async {
     setState(() => {updateUserObj()});
-    await userRegistration(widget.userObj.email, pwdInputController.text).then(
-        (value) async => {
-              print("registration is sucessful"),
-              await userConnection(widget.userObj.email, pwdInputController.text)
-                  .then((value) async => {
-                        widget.userObj.token = value,
-                        print("userconnection was succesful"),
-                        await updateUserInfo(widget.userObj).catchError((errorUpdateUserInfo) {
-                          throw errorUpdateUserInfo;
-                        })
-                      })
-                  .catchError((errorConnectUser) {
-                throw errorConnectUser;
-              }),
-            }, onError: (errorUserRegistration) {
-      throw errorUserRegistration;
-    });
+
+    var res = await userRegistration(widget.userObj, pwdInputController.text);
+    if (res != "201") {
+      throw Exception('Error doing registration');
+    }
 
     return "Succes";
   }
