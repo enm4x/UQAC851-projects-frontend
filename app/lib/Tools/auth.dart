@@ -24,13 +24,17 @@ Future<String> userConnection(String userCredentials, String userPassword) async
   }
 }
 
-Future<String> userRegistration(String userCredentials, String userPassword) async {
+Future<String> userRegistration(User userInstance, String userPassword) async {
   var client = http.Client();
   final Digest pwdHash = hashPassword(userPassword);
-
   try {
-    var response = await client.post(Uri.https(env["URL_PROD"].toString(), "/auth/register"),
-        body: {'email': '$userCredentials', 'password': '${pwdHash.toString()}'});
+    var response = await client.post(Uri.https(env["URL_PROD"].toString(), "/auth/register"), body: {
+      'email': '${userInstance.email}',
+      'first_name': '${userInstance.firstName}',
+      'last_name': '${userInstance.lastName}',
+      'password': '${pwdHash.toString()}'
+    });
+
     if (response.statusCode == 201) {
       return response.statusCode.toString();
     } else {
@@ -43,7 +47,6 @@ Future<String> userRegistration(String userCredentials, String userPassword) asy
 
 Future<String> getUserInfo(User userObj) async {
   var client = http.Client();
-
   try {
     var response = await client.get(
       Uri.https(env["URL_PROD"].toString(), "/users/${userObj.email}"),
@@ -58,6 +61,44 @@ Future<String> getUserInfo(User userObj) async {
   } finally {
     client.close();
   }
+}
+
+Future<bool> sendUseraccountVerification(User userObj, String emailToken) async {
+  var client = http.Client();
+  try {
+    var response = await client.get(Uri.https(env["URL_PROD"].toString(), "/users/${userObj.email}/verify/$emailToken"),
+        headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"});
+
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      throw Exception('Failed to verify email');
+    }
+  } finally {
+    client.close();
+  }
+}
+
+Future<bool> isUserEmailVerified(User userObj) async {
+  var client = http.Client();
+  try {
+    var response = await client.get(
+      Uri.https(env["URL_PROD"].toString(), "/users/${userObj.email}"),
+      headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"},
+    );
+    if (response.statusCode == 200) {
+      Map res = jsonDecode(response.body);
+
+      if (res['verified'] == true) {
+        return true;
+      }
+    } else {
+      throw Exception('Failed to update user info');
+    }
+  } finally {
+    client.close();
+  }
+  return false;
 }
 
 Future<String> updateUserInfo(User userObj) async {

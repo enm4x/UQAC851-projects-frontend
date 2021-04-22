@@ -1,3 +1,4 @@
+import 'package:app/screens/verificationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:app/Tools/auth.dart';
 import 'package:app/models/user.dart';
@@ -26,7 +27,7 @@ class _FormLoginWidgetState extends State<FormLogin> {
     super.dispose();
   }
 
-  void updateUserToken(String tok) {
+  void updatePartialUserData(String tok) {
     widget.userObj.email = emailInputController.text;
     widget.userObj.token = tok;
   }
@@ -47,7 +48,8 @@ class _FormLoginWidgetState extends State<FormLogin> {
                     contentPadding: EdgeInsets.all(20),
                     filled: true,
                     fillColor: Color(0xFFd8dee9),
-                    border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
+                    border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
                     hintStyle: TextStyle(color: Color(0xFF2e3440)),
                     hintText: "Email adress",
                     prefixIcon: Icon(
@@ -69,7 +71,8 @@ class _FormLoginWidgetState extends State<FormLogin> {
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Color(0xFFd8dee9),
-                    border: new OutlineInputBorder(borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
+                    border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0), borderSide: BorderSide.none),
                     hintStyle: TextStyle(color: Color(0xFF2e3440)),
                     hintText: "Password",
                     prefixIcon: Icon(
@@ -86,7 +89,8 @@ class _FormLoginWidgetState extends State<FormLogin> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: ElevatedButton(
-                  style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 50, vertical: 15))),
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 50, vertical: 15))),
                   onPressed: () async {
                     final snackLoginError = SnackBar(
                       content: Text("Error while login"),
@@ -94,12 +98,26 @@ class _FormLoginWidgetState extends State<FormLogin> {
                     );
                     if (_formKey.currentState!.validate()) {
                       await userConnection(emailInputController.text, pwdInputController.text)
-                          .then((value) => {
-                                setState(() => {updateUserToken(value)}),
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => DashboardPage(userObj: widget.userObj)),
-                                )
+                          .then((value) async => {
+                                setState(() => {updatePartialUserData(value)}),
+                                await isUserEmailVerified(widget.userObj).then((value) => {
+                                      if (value == true)
+                                        {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => DashboardPage(userObj: widget.userObj)),
+                                          )
+                                        }
+                                      else if (value == false)
+                                        {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => VerificationPage(userInstance: widget.userObj)),
+                                          )
+                                        }
+                                    })
                               })
                           .catchError((e) {
                         print("Got error : $e");
