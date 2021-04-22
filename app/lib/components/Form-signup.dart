@@ -28,6 +28,15 @@ class _FormSignupWidgetState extends State<FormSignup> {
     super.dispose();
   }
 
+  bool isEmail(String em) {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(p);
+
+    return regExp.hasMatch(em);
+  }
+
   Future<String> performRegistration(String firstname, String lastname, String email, String password) async {
     setState(() => {updateUserObj()});
     await userRegistration(widget.userObj.email, pwdInputController.text).then(
@@ -48,7 +57,7 @@ class _FormSignupWidgetState extends State<FormSignup> {
       throw errorUserRegistration;
     });
 
-    throw "Succes";
+    return "Succes";
   }
 
   void updateUserObj() {
@@ -127,9 +136,9 @@ class _FormSignupWidgetState extends State<FormSignup> {
                       Icons.email,
                       color: Color(0xFF2e3440),
                     )),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                validator: (value) {
+                  if (value == null || value.isEmpty || isEmail(value) == false) {
+                    return 'Please enter a valid email';
                   }
                   return null;
                 },
@@ -164,7 +173,7 @@ class _FormSignupWidgetState extends State<FormSignup> {
                       padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 50, vertical: 15))),
                   onPressed: () async {
                     final snackRegistrationSuccess = SnackBar(
-                      content: Text("You've been registered succesfuly"),
+                      content: Text("Succes registration, please confirm your email"),
                       behavior: SnackBarBehavior.floating,
                     );
 
