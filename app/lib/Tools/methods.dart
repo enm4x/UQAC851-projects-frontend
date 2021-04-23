@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Card topArea() => Card(
+Card topArea(String savings ) => Card(
       margin: EdgeInsets.all(15.0),
       elevation: 1.0,
       child: Container(
@@ -27,7 +27,7 @@ Card topArea() => Card(
               Center(
                 child: Padding(
                   padding: EdgeInsets.all(5.0),
-                  child: Text(r"$ " "95,940.00",
+                  child: Text(r"$ " + savings,
                       style: TextStyle(color: Colors.white, fontSize: 24.0)),
                 ),
               ),
