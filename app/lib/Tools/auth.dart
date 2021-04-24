@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:app/models/user.dart';
+import 'package:app/models/bankAccount.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<String> userConnection(String userCredentials, String userPassword) async {
@@ -112,6 +114,41 @@ Future<String> updateUserInfo(User userObj) async {
       return response.statusCode.toString();
     } else {
       throw Exception('Failed to update user info');
+    }
+  } finally {
+    client.close();
+  }
+}
+
+Future<int> createUserBankAccount(User userObj) async {
+  var client = http.Client();
+  try {
+    var response = await client.post(Uri.https(env["URL_PROD"].toString(), "/users/${userObj.email}/banks"),
+        headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"});
+    if (response.statusCode == 201) {
+      Map res = json.decode(response.body);
+      print("${res['id']}");
+
+      ////  TEMPORARY, THIS IS A MISSCONCEPTION, the extra space will be removed when the backend will be fixed
+      return res['id '];
+    } else {
+      throw Exception('Failed to create bank account');
+    }
+  } finally {
+    client.close();
+  }
+}
+
+Future<BankAccount> getUserBankAccount(User userObj) async {
+  var client = http.Client();
+  try {
+    var response = await client.get(Uri.https(env["URL_PROD"].toString(), "/users/${userObj.email}/banks"),
+        headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"});
+    if (response.statusCode == 200) {
+      BankAccount userAccount = BankAccount.fromJson(jsonDecode(response.body));
+      return userAccount;
+    } else {
+      throw Exception('Failed to create bank account');
     }
   } finally {
     client.close();
