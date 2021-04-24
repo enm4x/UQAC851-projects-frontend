@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/screens/transferPage.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -50,8 +51,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 leading: Icon(Icons.compare_arrows),
                 title: Text('Transfer'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TransferPage()));
                 }),
             Divider(),
             ListTile(
