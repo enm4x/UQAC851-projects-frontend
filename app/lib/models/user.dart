@@ -1,16 +1,20 @@
+import 'package:app/models/bankAccount.dart';
+
 class User {
   int id;
   String email;
   String token;
   String firstName;
   String lastName;
+  late int userAccount;
 
   User(
       {required this.id,
       required this.email,
       required this.token,
       required this.firstName,
-      required this.lastName});
+      required this.lastName,
+      int? userAccount});
 
   void updateToken(String inputToken) {
     token = inputToken;
