@@ -31,9 +31,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarIconBrightness: Brightness.dark),
+        value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
         child: Scaffold(
             drawer: AppDrawer(),
             appBar: AppBar(
@@ -51,15 +49,13 @@ class _DashboardPageState extends State<DashboardPage> {
               child: Column(children: <Widget>[
                 FutureBuilder<BankAccount>(
                   future: initializeBankAccount(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<BankAccount> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<BankAccount> snapshot) {
                     if (snapshot.hasData) {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => StatementsPage()),
+                            MaterialPageRoute(builder: (context) => StatementsPage()),
                           );
                         },
                         child: Container(
