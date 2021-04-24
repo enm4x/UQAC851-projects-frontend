@@ -78,13 +78,32 @@ class _VerificationPageState extends State<VerificationPage> {
                           behavior: SnackBarBehavior.floating,
                         );
 
-                        var res =
+                        final snackEmailAccountSuccess = SnackBar(
+                          content: Text("Email verified & Account created"),
+                          behavior: SnackBarBehavior.floating,
+                        );
+
+                        final snackAccountCreationError = SnackBar(
+                          content: Text("Error : Email verified with succes but account creation error"),
+                          behavior: SnackBarBehavior.floating,
+                        );
+
+                        var resVerification =
                             await sendUseraccountVerification(widget.userInstance, emailverifTokenInputController.text);
-                        if (res == true) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DashboardPage(userObj: widget.userInstance)),
-                          );
+                        if (resVerification == true) {
+                          await createUserBankAccount(widget.userInstance)
+                              .then((value) => {
+                                    widget.userInstance.userAccount = value,
+                                    ScaffoldMessenger.of(context).showSnackBar(snackEmailAccountSuccess),
+                                    print("--debug \n the account id is : ${widget.userInstance.userAccount}"),
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DashboardPage(userObj: widget.userInstance)),
+                                    )
+                                  })
+                              .onError((error, stackTrace) =>
+                                  {ScaffoldMessenger.of(context).showSnackBar(snackAccountCreationError)});
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(snackBadTokenError);
                         }
