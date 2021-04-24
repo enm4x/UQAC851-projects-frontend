@@ -1,6 +1,7 @@
+import 'package:app/models/operation.dart';
 import 'package:flutter/material.dart';
 
-Card topArea(String savings ) => Card(
+Card topArea(String savings) => Card(
       margin: EdgeInsets.all(15.0),
       elevation: 1.0,
       child: Container(
@@ -35,28 +36,36 @@ Card topArea(String savings ) => Card(
             ],
           )),
     );
-    
-Container displayAccoutList() => Container(
-      child: Column(
-        children: <Widget>[
-          accountItems("Trevello App", r"- $ 4,946.00", "28-04-16", "Invoice",
-              oddColour: const Color(0xFFF7F7F9)),
-          accountItems(
-              "Creative Studios", r"+ $ 5,428.00", "26-04-16", "Transfer"),
-          accountItems("Amazon EU", r"+ $ 746.00", "25-04-216", "Payment",
-              oddColour: const Color(0xFFF7F7F9)),
-          accountItems(
-              "Creative Studios", r"+ $ 14,526.00", "16-04-16", "Payment"),
-          accountItems(
-              "Book Hub Society", r"- $ 2,876.00", "04-04-16", "Invoice",
-              oddColour: const Color(0xFFF7F7F9)),
-          accountItems(
-              "Uber Eat", r"- $ 20.00", "04-04-16", "Payment")
-        ],
-      ),
-    );
 
-Container accountItems(
+Container displayOperationList(List<Operation> operationsList) {
+  if (operationsList.length >= 6) {
+    return Container(
+        child: Expanded(
+            child: ListView(children: <Widget>[
+      for (var i = 0; i < 6; i++)
+        new Container(
+          height: 20,
+          child: operationItems(
+              operationsList[i].receiverId.toString(),
+              operationsList[i].amount.toString(),
+              operationsList[i].date,
+              "invoice"),
+        )
+    ])));
+  } else {
+    return new Container(
+        child: Column(children: <Widget>[
+      for (var i = 0; i < operationsList.length; i++)
+        operationItems(
+            operationsList[i].receiverId.toString(),
+            operationsList[i].amount.toString(),
+            operationsList[i].date,
+            "invoice"),
+    ]));
+  }
+}
+
+Container operationItems(
         String item, String charge, String dateString, String type,
         {Color oddColour = Colors.white}) =>
     Container(
@@ -68,7 +77,7 @@ Container accountItems(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(item, style: TextStyle(fontSize: 16.0)),
-              Text(charge, style: TextStyle(fontSize: 16.0))
+              Text(r"+ $" + charge, style: TextStyle(fontSize: 16.0))
             ],
           ),
           SizedBox(

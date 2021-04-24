@@ -28,21 +28,26 @@ Future<BankAccount> getBankAccount(User userObj) async {
   }
 }
 
-Future<Operation> getOperation(User user, BankAccount bank) async {
+Future<List<Operation>> getOperations(User userObj, BankAccount bank) async {
   var client = http.Client();
   try {
-    var response = await client.get(Uri.https(
-        env["URL_PROD"].toString(),
-        "/users/" +
-            user.email.toString() +
-            "/banks/" +
-            bank.id.toString() +
-            "/operations"));
-
+    var response = await client.get(
+        Uri.https(
+            env["URL_PROD"].toString(),
+            "/users/" +
+                userObj.email +
+                "/banks/" +
+                bank.id.toString() +
+                "/operations"),
+        headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"});
     if (response.statusCode == 200) {
-      return Operation.fromJson(jsonDecode(response.body));
+      List<Operation> operations;
+      operations = (json.decode(response.body) as List)
+          .map((i) => Operation.fromJson(i))
+          .toList();
+      return operations;
     } else {
-      throw Exception('Can not retrieve operation');
+      throw Exception('Can not retrieve operation list');
     }
   } finally {
     client.close();

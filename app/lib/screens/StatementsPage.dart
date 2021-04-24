@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app/Tools/methods.dart';
 import 'package:flutter/services.dart';
 
 class StatementsPage extends StatelessWidget {
@@ -24,7 +23,7 @@ class StatementsPage extends StatelessWidget {
             body: Container(
               color: Colors.grey,
               child: Column(
-                children: <Widget>[displayAccoutList()],
+                children: <Widget>[],
               ),
             ),
             floatingActionButton: FloatingActionButton(
