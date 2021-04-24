@@ -8,68 +8,60 @@ class AppDrawer extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 160.0,
-      child: Drawer(child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListTileTheme(
+      selectedColor: Color(0xFF015FFF),
+      contentPadding: EdgeInsets.all(20),
+      child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 50.0),
+            DrawerHeader(
               child: TextButton.icon(
                 icon: Icon(
                   Icons.arrow_back,
                   color: Color(0xFF015FFF),
                 ),
-                onPressed: null,
-                label: Text("Back",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.0,
-                        color: Colors.black)),
+                onPressed: () => {Navigator.pop(context)},
+                label: Text("Back", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16.0, color: Colors.black)),
               ),
             ),
-            buildMenuItem(Icons.account_balance, "ACCOUNTS",
-                opacity: 1.0, color: Color(0xFF015FFF)),
+            ListTile(
+                leading: Icon(Icons.account_balance),
+                title: Text('Account'),
+                selected: true,
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                }),
             Divider(),
-            buildMenuItem(Icons.compare_arrows, "TRANSFER"),
+            ListTile(
+                leading: Icon(Icons.receipt),
+                title: Text('Statements'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                }),
             Divider(),
-            buildMenuItem(Icons.receipt, "STATEMENTS"), //Relevé bancaire
+            ListTile(
+                leading: Icon(Icons.compare_arrows),
+                title: Text('Transfer'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                }),
             Divider(),
-            buildMenuItem(Icons.attach_money, "INVOICE"),
-            Divider(),
-          ],
-        ),
-      ),
-  );
-}
-
-Opacity buildMenuItem(IconData icon, String title,
-      {double opacity = 0.3, Color color = Colors.black}) {
-    return Opacity(
-      opacity: opacity,
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 20.0,
-            ),
-            Icon(
-              icon,
-              size: 50.0,
-              color: color,
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(title,
-                style: TextStyle(
-                    fontWeight: FontWeight.w500, fontSize: 14.0, color: color)),
-            SizedBox(
-              height: 10.0,
-            ),
-          ],
-        ),
-      ),
-    );
+            ListTile(
+                leading: Icon(Icons.attach_money),
+                title: Text('Invoice'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                }),
+          ]),
+    ));
   }
 }
