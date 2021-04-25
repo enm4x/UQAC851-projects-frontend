@@ -1,20 +1,14 @@
 import 'package:app/models/bankAccount.dart';
 
 class User {
-  int id;
+  int? id;
   String email;
   String token;
-  String firstName;
-  String lastName;
-  late int userAccount;
+  String? firstName;
+  String? lastName;
+  int? userAccount;
 
-  User(
-      {required this.id,
-      required this.email,
-      required this.token,
-      required this.firstName,
-      required this.lastName,
-      int? userAccount});
+  User({this.id, required this.email, required this.token, this.firstName, this.lastName, this.userAccount});
 
   void updateToken(String inputToken) {
     token = inputToken;
@@ -33,6 +27,11 @@ class User {
         'last_name': lastName,
         'email': email,
       };
+
+  @override
+  String toString() {
+    return " User email --------: $email \n User id -----------: $id \n User bank account -: $userAccount";
+  }
 }
 
 class Token {
