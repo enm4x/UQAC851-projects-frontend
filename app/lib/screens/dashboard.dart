@@ -2,6 +2,7 @@ import 'package:app/Tools/methods.dart';
 import 'package:app/Tools/retrieve.dart';
 import 'package:app/components/AppDrawer.dart';
 import 'package:app/models/bankAccount.dart';
+import 'package:app/models/operation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:app/models/user.dart';
@@ -16,16 +17,22 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  //late BankAccount bankAccount;
+  late Future<BankAccount> bankAccount;
+  late Future<List<Operation>> operations;
 
   @override
   void initState() {
     super.initState();
-    //initializeBankAccount();
+    bankAccount = initializeBankAccount();
+    operations = initOperations();
   }
 
   Future<BankAccount> initializeBankAccount() async {
     return await getBankAccount(widget.userObj);
+  }
+
+  Future<List<Operation>> initOperations() async {
+    return await getOperations(widget.userObj);
   }
 
   @override
@@ -48,8 +55,8 @@ class _DashboardPageState extends State<DashboardPage> {
             body: Container(
               child: Column(children: <Widget>[
                 FutureBuilder<BankAccount>(
-                  future: initializeBankAccount(),
-                  builder: (BuildContext context, AsyncSnapshot<BankAccount> snapshot) {
+                  future: bankAccount,
+                  builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return GestureDetector(
                         onTap: () {
@@ -64,11 +71,20 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       );
                     } else {
-                      return Text('Calculating answer...');
+                      return CircularProgressIndicator();
                     }
                   },
                 ),
-                displayAccoutList()
+                FutureBuilder<List<Operation>>(
+                  future: operations,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return displayOperationList(snapshot.data!);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                )
               ]),
             )));
   }

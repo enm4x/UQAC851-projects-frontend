@@ -1,4 +1,4 @@
-class Operation {
+class Invoice {
   String createdAt;
   String updatedAt;
   int id;
@@ -10,12 +10,8 @@ class Operation {
   bool invoice;
   bool acquitted;
   String dueDate;
-  bool transfer;
-  bool instant;
-  bool scheduled;
-  String date;
 
-Operation(
+Invoice(
   {required this.createdAt,
   required this.updatedAt,
     required this.id,
@@ -27,17 +23,13 @@ Operation(
     required this.invoice,
     required this.acquitted,
     required this.dueDate,
-    required this.transfer,
-    required this.instant,
-    required this.scheduled,
-    required this.date,
     });
    
   void updateAcquitted(){
     acquitted = true;
   }
 
-  Operation.fromJson(Map<String, dynamic> json)
+  Invoice.fromJson(Map<String, dynamic> json)
         : createdAt = json['created_at'],
         updatedAt = json['updated_at'],
         id = json['id'],
@@ -48,11 +40,7 @@ Operation(
         receiverId = json['receiver_id'], 
         invoice = json['invoice'],
         acquitted = json['acquitted'],
-        dueDate = json['due_date'],
-        transfer = json['transfer'],
-        instant = json['instant'],
-        scheduled = json['scheduled'],
-        date = json['date'];
+        dueDate = json['due_date'];
 
         Map<String, dynamic> toJson() => {
           'created_at':createdAt,
@@ -66,9 +54,24 @@ Operation(
           'invoice':invoice,
           'acquitted':acquitted,
           'due_date':dueDate,
-          'transfer':transfer,
-          'instant':instant,
-          'scheduled':scheduled,
-          'date':date,
         };
+}
+
+class InvoiceToSend{
+  int amount;
+  String to;
+  String dueDate;
+
+  InvoiceToSend({
+    required this.amount,
+    required this.to,
+    required this.dueDate,
+  });
+
+  Map<String, dynamic> toJson()=> {
+    'to' : to,
+    'amount' : amount,
+    'due_date' : dueDate,
+  };
+
 }
