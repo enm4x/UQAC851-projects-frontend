@@ -71,5 +71,4 @@ Operation(
           'scheduled':scheduled,
           'date':date,
         };
-
 }

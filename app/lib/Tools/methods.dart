@@ -83,7 +83,6 @@ Container operationItems(List<Operation> operationsList, int index,
 }
 
 Text operationActor(List<Operation> operationsList, int index) {
-  print(operationsList[index].receiverId);
   if (operationsList[index].receiverId == 1) {
     return Text("from " + operationsList[index].from,
         style: TextStyle(fontSize: 16.0));

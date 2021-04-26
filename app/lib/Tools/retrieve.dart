@@ -40,6 +40,11 @@ Future<List<Operation>> getOperations(User userObj) async {
       operations = (json.decode(response.body) as List)
           .map((i) => Operation.fromJson(i))
           .toList();
+      operations = operations
+          .where((x) =>
+              x.transfer == true || (x.invoice == true && x.acquitted == true))
+          .toList();
+      operations.sort((a,b) => -a.createdAt.compareTo(b.createdAt));
       return operations;
     } else {
       throw Exception('Can not retrieve operation list');
