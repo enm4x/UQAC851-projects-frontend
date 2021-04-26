@@ -129,8 +129,7 @@ Future<int> createUserBankAccount(User userObj) async {
       Map res = json.decode(response.body);
       print("${res['id']}");
 
-      ////  TEMPORARY, THIS IS A MISSCONCEPTION, the extra space will be removed when the backend will be fixed
-      return res['id '];
+      return res['id'];
     } else {
       throw Exception('Failed to create bank account');
     }
