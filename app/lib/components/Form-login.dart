@@ -4,6 +4,7 @@ import 'package:app/Tools/auth.dart';
 import 'package:app/models/user.dart';
 import 'package:app/screens/dashboard.dart';
 import 'package:app/screens/signuppage.dart';
+import 'package:app/Tools/retrieve.dart';
 
 class FormLogin extends StatefulWidget {
   const FormLogin({Key? key, required this.userObj}) : super(key: key);
@@ -100,14 +101,21 @@ class _FormLoginWidgetState extends State<FormLogin> {
                       await userConnection(emailInputController.text, pwdInputController.text)
                           .then((value) async => {
                                 setState(() => {updatePartialUserData(value)}),
-                                await isUserEmailVerified(widget.userObj).then((value) => {
+                                await isUserEmailVerified(widget.userObj).then((value) async => {
                                       if (value == true)
                                         {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => DashboardPage(userObj: widget.userObj)),
-                                          )
+                                          await getBankAccount(widget.userObj).then((value) => {
+                                                setState(
+                                                  () {
+                                                    widget.userObj.userAccount = value.id;
+                                                  },
+                                                ),
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => DashboardPage(userObj: widget.userObj)),
+                                                )
+                                              }),
                                         }
                                       else if (value == false)
                                         {

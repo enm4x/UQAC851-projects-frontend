@@ -146,16 +146,13 @@ class _TransferPageState extends State<TransferPage> {
                                   trailing: IconButton(
                                     icon: Icon(Icons.more_vert),
                                     onPressed: () => {
-                                      if (item != null)
-                                        {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (BuildContext context) => TransferDetailPage(
-                                                        transferData: item,
-                                                        myUser: userInstance,
-                                                      )))
-                                        }
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) => TransferDetailPage(
+                                                    transferData: item,
+                                                    myUser: userInstance,
+                                                  )))
                                     },
                                   ),
                                   title: Text(item.from == userInstance.email ? "${item.to}" : "${item.from}"),

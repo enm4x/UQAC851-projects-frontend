@@ -95,7 +95,6 @@ class _VerificationPageState extends State<VerificationPage> {
                               .then((value) => {
                                     widget.userInstance.userAccount = value,
                                     ScaffoldMessenger.of(context).showSnackBar(snackEmailAccountSuccess),
-                                    print("--debug \n the account id is : ${widget.userInstance.userAccount}"),
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

@@ -127,7 +127,6 @@ Future<int> createUserBankAccount(User userObj) async {
         headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"});
     if (response.statusCode == 201) {
       Map res = json.decode(response.body);
-      print("${res['id']}");
 
       return res['id'];
     } else {

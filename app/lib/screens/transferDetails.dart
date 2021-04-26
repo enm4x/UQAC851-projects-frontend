@@ -227,13 +227,8 @@ class _TransferDetailPageState extends State<TransferDetailPage> {
                                                               builder: (BuildContext context) => TransferPage())))
                                                       .onError((error, stackTrace) => {
                                                             setState(() {
-                                                              print(
-                                                                  "try counter value is : ${widget.transferData.verificationTry}");
                                                               widget.transferData.verificationTry =
                                                                   widget.transferData.verificationTry + 1;
-
-                                                              print(
-                                                                  "incremente try counter new value is : ${widget.transferData.verificationTry}");
                                                             }),
                                                             if (widget.transferData.verificationTry >= 3)
                                                               {
