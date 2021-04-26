@@ -7,9 +7,7 @@ class Transfer {
   String to;
   int senderId;
   int receiverId;
-  bool invoice;
-  bool acquitted;
-  String dueDate;
+
   bool transfer;
   bool instant;
   bool scheduled;
@@ -19,6 +17,23 @@ class Transfer {
   bool verified;
   int verificationTry;
 
+//  "created_at": "2021-04-24T23:17:02.864Z",
+//         "updated_at": "2021-04-24T23:19:22.779Z",
+//         "id": 1,
+//         "amount": 10,
+//         "from": "user1prixbanque@gmail.com",
+//         "to": "user2prixbanque@gmail.com",
+//         "sender_id": 1,
+//         "receiver_id": 2,
+//         "transfer": true,
+//         "instant": true,
+//         "scheduled": false,
+//         "date": "2021-04-22T00:00:00Z",
+//         "question": "To be or not ?",
+//         "answer": "1234",
+//         "verified": false,
+//         "try": 3
+//
   Transfer(
       {required this.createdAt,
       required this.updatedAt,
@@ -28,9 +43,6 @@ class Transfer {
       required this.amount,
       required this.senderId,
       required this.receiverId,
-      required this.invoice,
-      required this.acquitted,
-      required this.dueDate,
       required this.transfer,
       required this.instant,
       required this.scheduled,
@@ -39,10 +51,6 @@ class Transfer {
       required this.answer,
       required this.verified,
       required this.verificationTry});
-
-  void updateAcquitted() {
-    acquitted = true;
-  }
 
   Transfer.fromJson(Map<String, dynamic> json)
       : createdAt = json['created_at'],
@@ -53,9 +61,6 @@ class Transfer {
         amount = json["amount"],
         senderId = json["sender_id"],
         receiverId = json["receiver_id"],
-        invoice = json["invoice"],
-        acquitted = json["acquitted"],
-        dueDate = json["due_date"],
         transfer = json["transfer"],
         instant = json["instant"],
         scheduled = json["scheduled"],
@@ -72,9 +77,6 @@ class Transfer {
         'amount': amount,
         'sender_id': senderId,
         'receiver_id': receiverId,
-        'invoice': invoice,
-        'acquitted': acquitted,
-        'due_date': dueDate,
         'transfer': transfer,
         'instant': instant,
         'scheduled': scheduled,

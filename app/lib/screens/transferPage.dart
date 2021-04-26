@@ -1,11 +1,16 @@
-import 'package:app/components/AppDrawer.dart';
+//Default import
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:app/screens/newTransferPage.dart';
+//Component import
+import 'package:app/components/AppDrawer.dart';
+//Models import
 import 'package:app/models/user.dart';
 import 'package:app/models/transfer.dart';
-
+//Tools import
 import 'package:app/Tools/client_transfer.dart';
+//Screens import
+import 'package:app/screens/newTransferPage.dart';
+import 'package:app/screens/transferDetails.dart';
 
 class TransferPage extends StatefulWidget {
   const TransferPage({Key? key}) : super(key: key);
@@ -25,26 +30,6 @@ class _TransferPageState extends State<TransferPage> {
       userAccount: 2);
 
   late List<Transfer> userTransfer;
-
-  void printUserData(User u) {
-    print("User email --------: ${u.email}");
-    print("User id -----------: ${u.id}");
-    print("User bank account -: ${u.userAccount.toString()}");
-  }
-
-  void printTransferData(List<Transfer> lt) {
-    for (var t in lt) {
-      // print(" Transfer sent for ------------- : ${t.to}");
-      // print(" Transfer amount is ------------ : ${t.amount}");
-      // print(" Transfer verification status is : ${t.verified}");
-      // print(" Transfer sent by -------------- : ${t.from}");
-      print(" --------- Start ---------- \n");
-      print(t.toString());
-      // print(" Transfer sent by -------------- : ${t.from}");
-
-      print(" ---------- end ----------- \n");
-    }
-  }
 
   Future<List<Transfer>> getTransferList() async {
     userTransfer = await getAllTransfers(userInstance);
@@ -91,19 +76,19 @@ class _TransferPageState extends State<TransferPage> {
                                   child: Center(
                                     child: Text('Create a new transfer'),
                                   ))))),
-                  Card(
-                      elevation: 5,
-                      child: Center(
-                          child: InkWell(
-                              splashColor: Colors.blue.withAlpha(30),
-                              onTap: () {
-                                print('Card tapped.');
-                              },
-                              child: const SizedBox(
-                                  height: 100,
-                                  child: Center(
-                                    child: Text('Show all my transfer'),
-                                  ))))),
+                  // Card(
+                  //     elevation: 5,
+                  //     child: Center(
+                  //         child: InkWell(
+                  //             splashColor: Colors.blue.withAlpha(30),
+                  //             onTap: () {
+                  //               print('Card tapped.');
+                  //             },
+                  //             child: const SizedBox(
+                  //                 height: 100,
+                  //                 child: Center(
+                  //                   child: Text('Show all my transfer'),
+                  //                 ))))),
                   const SizedBox(
                     height: 50,
                     child: Center(child: Text("Previous transfer")),
@@ -126,32 +111,54 @@ class _TransferPageState extends State<TransferPage> {
                                 ListTile(
                                   // contentPadding: EdgeInsets.only(left: 15),
                                   leading: Icon(
-                                    Icons.check,
+                                    item?.from == userInstance.email ? Icons.upload_rounded : Icons.download_rounded,
                                     color: Colors.green,
                                   ),
                                   trailing: IconButton(
                                     icon: Icon(Icons.more_vert),
-                                    onPressed: () => {},
+                                    onPressed: () => {
+                                      if (item != null)
+                                        {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (BuildContext context) => TransferDetailPage(
+                                                        transferData: item,
+                                                        myUser: userInstance,
+                                                      )))
+                                        }
+                                    },
                                   ),
-                                  title: Text("${item?.from}"),
+                                  title: Text(item?.from == userInstance.email ? "${item?.to}" : "${item?.from}"),
                                   subtitle: Text("amount : ${item?.amount}"),
                                   onTap: () => {},
                                 ),
                                 Divider()
                               ]);
-                            } else if (item != null && item.verificationTry <= 3) {
+                            } else if (item != null && item.verificationTry < 3) {
                               return Column(children: [
                                 ListTile(
                                   // contentPadding: EdgeInsets.only(left: 15),
                                   leading: Icon(
-                                    Icons.pending_actions,
+                                    item.to == userInstance.email ? Icons.download_rounded : Icons.upload_rounded,
                                     color: Colors.blue,
                                   ),
                                   trailing: IconButton(
                                     icon: Icon(Icons.more_vert),
-                                    onPressed: () => {},
+                                    onPressed: () => {
+                                      if (item != null)
+                                        {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (BuildContext context) => TransferDetailPage(
+                                                        transferData: item,
+                                                        myUser: userInstance,
+                                                      )))
+                                        }
+                                    },
                                   ),
-                                  title: Text("${item.from}"),
+                                  title: Text(item.from == userInstance.email ? "${item.to}" : "${item.from}"),
                                   subtitle: Text("amount : ${item.amount}"),
                                   onTap: () => {},
                                 ),
@@ -162,14 +169,25 @@ class _TransferPageState extends State<TransferPage> {
                                 ListTile(
                                   // contentPadding: EdgeInsets.only(left: 15),
                                   leading: Icon(
-                                    Icons.error,
+                                    item?.from == userInstance.email ? Icons.upload_rounded : Icons.download_rounded,
                                     color: Colors.red,
                                   ),
                                   trailing: IconButton(
                                     icon: Icon(Icons.more_vert),
-                                    onPressed: () => {},
+                                    onPressed: () => {
+                                      if (item != null)
+                                        {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (BuildContext context) => TransferDetailPage(
+                                                        transferData: item,
+                                                        myUser: userInstance,
+                                                      )))
+                                        }
+                                    },
                                   ),
-                                  title: Text("${item?.from}"),
+                                  title: Text(item?.from == userInstance.email ? "${item?.to}" : "${item?.from}"),
                                   subtitle: Text("amount : ${item?.amount}"),
                                   onTap: () => {},
                                 ),
