@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:app/models/bankAccount.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -30,17 +29,6 @@ Future<List<Transfer>> getAllTransfers(User userCredentials) async {
   }
 }
 
-// {
-//     "to": "user1prixbanque@gmail.com",
-//     "amount": 15,
-//     "scheduled": "false",
-//     "instant": "true",
-//     "date": "2021-04-22",
-//     "question": "un plus un",
-//     "answer": "deux"
-// }
-//
-// /users/{{email}}/banks/{{bank_id}}/transfers
 Future<String> sendTransfer(User userInfo, TransferToSend newTransfer) async {
   var client = http.Client();
 
