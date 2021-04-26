@@ -45,28 +45,19 @@ Container displayOperationList(List<Operation> operationsList) {
       for (var i = 0; i < 6; i++)
         new Container(
           height: 20,
-          child: operationItems(
-              operationsList[i].receiverId.toString(),
-              operationsList[i].amount.toString(),
-              operationsList[i].date,
-              "invoice"),
+          child: operationItems(operationsList, i),
         )
     ])));
   } else {
     return new Container(
         child: Column(children: <Widget>[
       for (var i = 0; i < operationsList.length; i++)
-        operationItems(
-            operationsList[i].receiverId.toString(),
-            operationsList[i].amount.toString(),
-            operationsList[i].date,
-            "invoice"),
+        operationItems(operationsList, i),
     ]));
   }
 }
 
-Container operationItems(
-        String item, String charge, String dateString, String type,
+Container operationItems(List<Operation> operationsList, int index,
         {Color oddColour = Colors.white}) =>
     Container(
       decoration: BoxDecoration(color: oddColour),
@@ -76,8 +67,8 @@ Container operationItems(
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(item, style: TextStyle(fontSize: 16.0)),
-              Text(r"+ $" + charge, style: TextStyle(fontSize: 16.0))
+              operationActor(operationsList, index),
+              operationAmount(operationsList, index)
             ],
           ),
           SizedBox(
@@ -86,11 +77,45 @@ Container operationItems(
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(dateString,
-                  style: TextStyle(color: Colors.grey, fontSize: 14.0)),
-              Text(type, style: TextStyle(color: Colors.grey, fontSize: 14.0))
+              operationDate(operationsList, index),
+              operationType(operationsList, index),
             ],
           ),
         ],
       ),
     );
+
+Text operationActor(List<Operation> operationsList, int index) {
+  if (operationsList[index].receiverId == 1) {
+    return Text("from " + operationsList[index].from,
+        style: TextStyle(fontSize: 16.0));
+  } else {
+    return Text("to " + operationsList[index].to,
+        style: TextStyle(fontSize: 16.0));
+  }
+}
+
+Text operationAmount(List<Operation> operationsList, int index) {
+  if (operationsList[index].receiverId == 1) {
+    return Text(r"+ $" + operationsList[index].amount.toString(),
+        style: TextStyle(fontSize: 16.0));
+  } else {
+    return Text(r"- $" + operationsList[index].amount.toString(),
+        style: TextStyle(fontSize: 16.0));
+  }
+}
+
+Text operationDate(List<Operation> operationsList, int index) {
+  return Text(operationsList[index].createdAt,
+      style: TextStyle(color: Colors.grey, fontSize: 14.0));
+}
+
+Text operationType(List<Operation> operationsList, int index) {
+  if (operationsList[index].invoice == true) {
+    return Text("invoice",
+        style: TextStyle(color: Colors.grey, fontSize: 14.0));
+  } else {
+    return Text("transfer",
+        style: TextStyle(color: Colors.grey, fontSize: 14.0));
+  }
+}

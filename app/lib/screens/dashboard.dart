@@ -17,14 +17,22 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  late BankAccount bankAccount;
+  late Future<BankAccount> bankAccount;
+  late Future<List<Operation>> operations;
+
+  @override
+  void initState() {
+    super.initState();
+    bankAccount = initializeBankAccount();
+    operations = initOperations();
+  }
 
   Future<BankAccount> initializeBankAccount() async {
     return await getBankAccount(widget.userObj);
   }
 
   Future<List<Operation>> initOperations() async {
-    return await getOperations(widget.userObj, bankAccount);
+    return await getOperations(widget.userObj);
   }
 
   @override
@@ -47,10 +55,9 @@ class _DashboardPageState extends State<DashboardPage> {
             body: Container(
               child: Column(children: <Widget>[
                 FutureBuilder<BankAccount>(
-                  future: initializeBankAccount(),
-                  builder: (BuildContext context, AsyncSnapshot<BankAccount> snapshot) {
+                  future: bankAccount,
+                  builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      bankAccount = snapshot.data!;
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -69,9 +76,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   },
                 ),
                 FutureBuilder<List<Operation>>(
-                  future: initOperations(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Operation>> snapshot) {
+                  future: operations,
+                  builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return displayOperationList(snapshot.data!);
                     } else {

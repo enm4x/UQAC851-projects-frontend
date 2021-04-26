@@ -28,17 +28,12 @@ Future<BankAccount> getBankAccount(User userObj) async {
   }
 }
 
-Future<List<Operation>> getOperations(User userObj, BankAccount bank) async {
+Future<List<Operation>> getOperations(User userObj) async {
   var client = http.Client();
   try {
     var response = await client.get(
-        Uri.https(
-            env["URL_PROD"].toString(),
-            "/users/" +
-                userObj.email +
-                "/banks/" +
-                bank.id.toString() +
-                "/operations"),
+        Uri.https(env["URL_PROD"].toString(),
+            "/users/" + userObj.email + "/banks/1/operations"),
         headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"});
     if (response.statusCode == 200) {
       List<Operation> operations;

@@ -3,6 +3,8 @@ class Operation {
   String updatedAt;
   int id;
   int amount;
+  String from;
+  String to;
   int senderId;
   int receiverId;
   bool invoice;
@@ -18,6 +20,8 @@ Operation(
   required this.updatedAt,
     required this.id,
     required this.amount,
+    required this.from,
+    required this.to,
     required this.senderId,
     required this.receiverId,
     required this.invoice,
@@ -38,6 +42,8 @@ Operation(
         updatedAt = json['updated_at'],
         id = json['id'],
         amount = json['amount'],
+        from = json['from'],
+        to = json['to'],
         senderId = json['sender_id'],
         receiverId = json['receiver_id'], 
         invoice = json['invoice'],
@@ -53,6 +59,8 @@ Operation(
           'updated_at':updatedAt,
           'id':id,
           'amount':amount,
+          'from':from,
+          'to':to,
           'sender_id':senderId,
           'receiver_id':receiverId,
           'invoice':invoice,
