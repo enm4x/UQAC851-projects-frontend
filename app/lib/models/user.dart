@@ -1,4 +1,3 @@
-import 'package:app/models/bankAccount.dart';
 
 class User {
   int? id;
