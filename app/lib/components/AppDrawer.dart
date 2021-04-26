@@ -1,3 +1,4 @@
+import 'package:app/screens/invoicePage.dart';
 import 'package:flutter/material.dart';
 import 'package:app/screens/transferPage.dart';
 
@@ -58,8 +59,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 leading: Icon(Icons.attach_money),
                 title: Text('Invoice'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => InvoicePage()));
                 }),
           ]),
     ));

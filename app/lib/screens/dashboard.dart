@@ -71,7 +71,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       );
                     } else {
-                      return Text('Calculating answer...');
+                      return CircularProgressIndicator();
                     }
                   },
                 ),
@@ -81,7 +81,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     if (snapshot.hasData) {
                       return displayOperationList(snapshot.data!);
                     } else {
-                      return Text('No Recent Operation');
+                      return CircularProgressIndicator();
                     }
                   },
                 )
