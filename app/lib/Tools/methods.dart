@@ -40,14 +40,10 @@ Card topArea(String savings) => Card(
 Container displayOperationList(List<Operation> operationsList) {
   if (operationsList.length >= 6) {
     return Container(
-        child: Expanded(
-            child: ListView(children: <Widget>[
+        child: Column(children: <Widget>[
       for (var i = 0; i < 6; i++)
-        new Container(
-          height: 20,
-          child: operationItems(operationsList, i),
-        )
-    ])));
+          operationItems(operationsList, i)
+        ]));
   } else {
     return new Container(
         child: Column(children: <Widget>[
@@ -58,34 +54,36 @@ Container displayOperationList(List<Operation> operationsList) {
 }
 
 Container operationItems(List<Operation> operationsList, int index,
-        {Color oddColour = Colors.white}) =>
-    Container(
-      decoration: BoxDecoration(color: oddColour),
-      padding: EdgeInsets.only(top: 21.8, bottom: 21.8, left: 5.0, right: 5.0),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              operationActor(operationsList, index),
-              operationAmount(operationsList, index)
-            ],
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              operationDate(operationsList, index),
-              operationType(operationsList, index),
-            ],
-          ),
-        ],
-      ),
-    );
+    {Color oddColour = Colors.white}) {
+  return Container(
+    decoration: BoxDecoration(color: oddColour),
+    padding: EdgeInsets.only(top: 21.8, bottom: 21.8, left: 5.0, right: 5.0),
+    child: Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            operationActor(operationsList, index),
+            operationAmount(operationsList, index)
+          ],
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            operationDate(operationsList, index),
+            operationType(operationsList, index),
+          ],
+        ),
+      ],
+    ),
+  );
+}
 
 Text operationActor(List<Operation> operationsList, int index) {
+  print(operationsList[index].receiverId);
   if (operationsList[index].receiverId == 1) {
     return Text("from " + operationsList[index].from,
         style: TextStyle(fontSize: 16.0));
