@@ -20,7 +20,7 @@ Future<String> createInvoice(User userObj, InvoiceToSend invoice) async {
   return response.statusCode.toString();
 }
 
-Future<List<Invoice>> getInvoices(User userObj) async {
+Future<List<Invoice>> getPaidInvoices(User userObj) async {
   var client = http.Client();
   try {
     var response = await client.get(

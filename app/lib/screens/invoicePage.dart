@@ -1,5 +1,6 @@
 import 'package:app/Tools/invoiceDataAccess.dart';
 import 'package:app/components/AppDrawer.dart';
+import 'package:app/components/InvoiceComponent.dart';
 import 'package:app/models/invoice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +33,11 @@ class _InvoicePageState extends State<InvoicePage> {
   }
 
   Future<List<Invoice>> initInvoice() async {
+<<<<<<< HEAD
     return await getInvoices(widget.userObj);
+=======
+    return await getPaidInvoices(userObj);
+>>>>>>> 6187f11... update InvoicePage
   }
 
   @override
@@ -107,7 +112,7 @@ class _InvoicePageState extends State<InvoicePage> {
                                 future: invoices,
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    return Text('found Invoices');
+                                    return displayInvoiceList(snapshot.data!);
                                   } else {
                                     return Text('No Recent Invoices');
                                   }
