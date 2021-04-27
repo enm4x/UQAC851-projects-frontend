@@ -20,15 +20,6 @@ class TransferPage extends StatefulWidget {
 }
 
 class _TransferPageState extends State<TransferPage> {
-  // var userInstance = new User(
-  //     id: 2,
-  //     email: "user2prixbanque@gmail.com",
-  //     token:
-  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTUyMzU2NTMsIm5iZiI6MTYxOTIzNTY1MywidXNlcmlkIjoidXNlcjJwcml4YmFucXVlQGdtYWlsLmNvbSJ9.DZ6Se65hai1w91hU0PCwC7-bVXZY8jidvETg0_RlEBs",
-  //     firstName: "Eikichi",
-  //     lastName: "Onizuka",
-  //     userAccount: 2);
-
   late List<Transfer> userTransfer;
 
   Future<List<Transfer>> getTransferList() async {
