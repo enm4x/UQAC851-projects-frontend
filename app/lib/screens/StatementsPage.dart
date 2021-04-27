@@ -60,20 +60,17 @@ class _StatementsPageState extends State<StatementsPage> {
                                 itemBuilder: (context, index) {
                                   final item = snapshot.data?[index];
 
-                                  if (item?.acquitted == true) {
+                                  if (item?.invoice == true) {
                                     return Column(children: [
                                       ListTile(
                                         // contentPadding: EdgeInsets.only(left: 15),
                                         leading: Icon(
-                                          item?.from == widget.userObj.email
-                                              ? Icons.upload_rounded
-                                              : Icons.download_rounded,
+                                          Icons.description,
                                           color: Colors.green,
                                         ),
-                                        trailing: IconButton(
-                                          icon: Text("amount : ${item?.amount}"),
-                                          onPressed: () => {},
-                                        ),
+                                        trailing: Text(item?.to == widget.userObj.email
+                                            ? "+ ${item?.amount}"
+                                            : "- ${item?.amount}"),
                                         title:
                                             Text(item?.from == widget.userObj.email ? "${item?.to}" : "${item?.from}"),
                                         subtitle: item?.invoice == true ? Text("Invoice") : Text("Transfer"),
@@ -86,12 +83,12 @@ class _StatementsPageState extends State<StatementsPage> {
                                       ListTile(
                                         // contentPadding: EdgeInsets.only(left: 15),
                                         leading: Icon(
-                                          item?.from == widget.userObj.email
-                                              ? Icons.upload_rounded
-                                              : Icons.download_rounded,
+                                          Icons.swap_horiz,
                                           color: Colors.blue,
                                         ),
-                                        trailing: Text("${item?.amount}"),
+                                        trailing: Text(item?.to == widget.userObj.email
+                                            ? "+ ${item?.amount}"
+                                            : "- ${item?.amount}"),
                                         title:
                                             Text(item?.from == widget.userObj.email ? "${item?.to}" : "${item?.from}"),
                                         subtitle: item?.invoice == true ? Text("Invoice") : Text("Transfer"),
