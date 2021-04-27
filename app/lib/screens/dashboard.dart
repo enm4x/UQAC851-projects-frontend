@@ -54,7 +54,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: TextStyle(color: Colors.black),
                 ),
                 centerTitle: true),
-            body: Container(
+            body: Center(
+                child: Container(
               child: Column(children: <Widget>[
                 FutureBuilder<BankAccount>(
                   future: bankAccount,
@@ -73,7 +74,11 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       );
                     } else {
-                      return CircularProgressIndicator();
+                      return Center(
+                          child: Container(
+                        child: CircularProgressIndicator(),
+                        padding: EdgeInsets.all(50),
+                      ));
                     }
                   },
                 ),
@@ -83,11 +88,15 @@ class _DashboardPageState extends State<DashboardPage> {
                     if (snapshot.hasData) {
                       return displayOperationList(snapshot.data!);
                     } else {
-                      return CircularProgressIndicator();
+                      return Center(
+                          child: Container(
+                        child: CircularProgressIndicator(),
+                        padding: EdgeInsets.all(50),
+                      ));
                     }
                   },
                 )
               ]),
-            )));
+            ))));
   }
 }
