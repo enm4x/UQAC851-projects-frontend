@@ -2,9 +2,10 @@ import 'package:app/Tools/InvoiceDataAccess.dart';
 import 'package:app/components/InvoiceComponent.dart';
 import 'package:app/models/invoice.dart';
 import 'package:app/models/user.dart';
-import 'package:app/screens/invoicePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'invoicePage.dart';
 
 class PendingInvoicePage extends StatefulWidget {
   const PendingInvoicePage({Key? key, required this.userObj}) : super(key: key);
