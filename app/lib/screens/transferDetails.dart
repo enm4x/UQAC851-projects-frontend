@@ -174,9 +174,9 @@ class _TransferDetailPageState extends State<TransferDetailPage> {
                                           ),
                                         ),
                                         const SizedBox(height: 10),
-                                        widget.transferData.verificationTry < 3
+                                        widget.transferData.from != widget.myUser.email
                                             ? TextFormField(
-                                                enabled: widget.transferData.from != widget.myUser.email ? true : false,
+                                                enabled: widget.transferData.verificationTry < 3 ? true : false,
                                                 controller: answerInputController,
                                                 style: TextStyle(color: Color(0xFF2e3440)),
                                                 decoration: InputDecoration(
@@ -244,46 +244,47 @@ class _TransferDetailPageState extends State<TransferDetailPage> {
                                               },
                                               child: const Text('Go back'),
                                             ),
-                                            TextButton(
-                                              onPressed: () async {
-                                                if (widget.transferData.verificationTry < 3) {
-                                                  await verifyTransfer(widget.myUser, widget.transferData,
-                                                          answerInputController.text)
-                                                      .then((value) => Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (BuildContext context) => TransferPage(
-                                                                    userObj: widget.myUser,
-                                                                  ))))
-                                                      .onError((error, stackTrace) => {
-                                                            setState(() {
-                                                              widget.transferData.verificationTry =
-                                                                  widget.transferData.verificationTry + 1;
-                                                            }),
-                                                            if (widget.transferData.verificationTry >= 3)
-                                                              {
-                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                  content: Text("Error : Transfer has been blocked"),
-                                                                  behavior: SnackBarBehavior.floating,
-                                                                ))
-                                                              }
-                                                            else
-                                                              {
-                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                  content: Text("Error : Bad Answer"),
-                                                                  behavior: SnackBarBehavior.floating,
-                                                                ))
-                                                              },
-                                                          });
-                                                } else {
-                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                    content: Text("Error : Transfer has been blocked"),
-                                                    behavior: SnackBarBehavior.floating,
-                                                  ));
-                                                }
-                                              },
-                                              child: const Text('Verify'),
-                                            ),
+                                            if (widget.myUser.email != widget.transferData.from)
+                                              TextButton(
+                                                onPressed: () async {
+                                                  if (widget.transferData.verificationTry < 3) {
+                                                    await verifyTransfer(widget.myUser, widget.transferData,
+                                                            answerInputController.text)
+                                                        .then((value) => Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (BuildContext context) => TransferPage(
+                                                                      userObj: widget.myUser,
+                                                                    ))))
+                                                        .onError((error, stackTrace) => {
+                                                              setState(() {
+                                                                widget.transferData.verificationTry =
+                                                                    widget.transferData.verificationTry + 1;
+                                                              }),
+                                                              if (widget.transferData.verificationTry >= 3)
+                                                                {
+                                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                    content: Text("Error : Transfer has been blocked"),
+                                                                    behavior: SnackBarBehavior.floating,
+                                                                  ))
+                                                                }
+                                                              else
+                                                                {
+                                                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                    content: Text("Error : Bad Answer"),
+                                                                    behavior: SnackBarBehavior.floating,
+                                                                  ))
+                                                                },
+                                                            });
+                                                  } else {
+                                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                      content: Text("Error : Transfer has been blocked"),
+                                                      behavior: SnackBarBehavior.floating,
+                                                    ));
+                                                  }
+                                                },
+                                                child: const Text('Verify'),
+                                              ),
                                           ],
                                         )
                                       : ButtonBar(
