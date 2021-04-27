@@ -1,8 +1,13 @@
+import 'package:app/screens/dashboard.dart';
 import 'package:app/screens/invoicePage.dart';
 import 'package:flutter/material.dart';
 import 'package:app/screens/transferPage.dart';
+import 'package:app/models/user.dart';
 
 class AppDrawer extends StatefulWidget {
+  const AppDrawer({Key? key, required this.userObj}) : super(key: key);
+  final User userObj;
+
   @override
   _AppDrawerState createState() => _AppDrawerState();
 }
@@ -36,8 +41,12 @@ class _AppDrawerState extends State<AppDrawer> {
                 title: Text('Account'),
                 selected: true,
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => DashboardPage(
+                                userObj: widget.userObj,
+                              )));
                 }),
             Divider(),
             ListTile(
@@ -52,14 +61,24 @@ class _AppDrawerState extends State<AppDrawer> {
                 leading: Icon(Icons.compare_arrows),
                 title: Text('Transfer'),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => TransferPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => TransferPage(
+                                userObj: widget.userObj,
+                              )));
                 }),
             Divider(),
             ListTile(
                 leading: Icon(Icons.attach_money),
                 title: Text('Invoice'),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => InvoicePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => InvoicePage(
+                                userObj: widget.userObj,
+                              )));
                 }),
           ]),
     ));

@@ -8,22 +8,22 @@ import 'package:app/models/user.dart';
 import 'createInvoicePage.dart';
 
 class InvoicePage extends StatefulWidget {
-  const InvoicePage({Key? key}) : super(key: key);
-
+  const InvoicePage({Key? key, required this.userObj}) : super(key: key);
+  final User userObj;
   @override
   _InvoicePageState createState() => _InvoicePageState();
 }
 
 class _InvoicePageState extends State<InvoicePage> {
   late Future<List<Invoice>> invoices;
-  var userObj = new User(
-      id: 1,
-      email: "user1prixbanque@gmail.com",
-      token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTUxMTcxNjksIm5iZiI6MTYxOTExNzE2OSwidXNlcmlkIjoidXNlcjFwcml4YmFucXVlQGdtYWlsLmNvbSJ9.GZgurQ5LpUdQ2wM806l5r019DC73qrNUZg5DQkancZw",
-      firstName: "User1",
-      lastName: "Lambda",
-      userAccount: 1);
+  // var userObj = new User(
+  //     id: 1,
+  //     email: "user1prixbanque@gmail.com",
+  //     token:
+  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTUxMTcxNjksIm5iZiI6MTYxOTExNzE2OSwidXNlcmlkIjoidXNlcjFwcml4YmFucXVlQGdtYWlsLmNvbSJ9.GZgurQ5LpUdQ2wM806l5r019DC73qrNUZg5DQkancZw",
+  //     firstName: "User1",
+  //     lastName: "Lambda",
+  //     userAccount: 1);
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _InvoicePageState extends State<InvoicePage> {
   }
 
   Future<List<Invoice>> initInvoice() async {
-    return await getInvoices(userObj);
+    return await getInvoices(widget.userObj);
   }
 
   @override
@@ -40,7 +40,9 @@ class _InvoicePageState extends State<InvoicePage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
         child: Scaffold(
-            drawer: AppDrawer(),
+            drawer: AppDrawer(
+              userObj: widget.userObj,
+            ),
             appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Colors.blue, //change your color here
@@ -65,7 +67,7 @@ class _InvoicePageState extends State<InvoicePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (BuildContext context) => CreateInvoicePage(userObj: userObj)));
+                                        builder: (BuildContext context) => CreateInvoicePage(userObj: widget.userObj)));
                               },
                               child: const SizedBox(
                                   height: 100,

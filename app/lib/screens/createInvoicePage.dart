@@ -24,11 +24,7 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
   final questionInputController = TextEditingController();
   final answerInputController = TextEditingController();
 
-  var invoiceData = new InvoiceToSend(
-    to: '',
-    amount: 0,
-    dueDate: ''
-  );
+  var invoiceData = new InvoiceToSend(to: '', amount: 0, dueDate: '');
 
   DateTime selectedDate = DateTime.now();
 
@@ -73,7 +69,9 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
         value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
         child: Scaffold(
             // resizeToAvoidBottomInset: false,
-            drawer: AppDrawer(),
+            drawer: AppDrawer(
+              userObj: widget.userObj,
+            ),
             appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Colors.blue, //change your color here
@@ -183,8 +181,12 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
                                     .then((value) => {
                                           if (value == "201")
                                             {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(builder: (BuildContext context) => InvoicePage()))
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext context) => InvoicePage(
+                                                            userObj: widget.userObj,
+                                                          )))
                                             }
                                         })
                                     .catchError((e) {

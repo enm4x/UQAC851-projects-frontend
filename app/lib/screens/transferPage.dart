@@ -13,26 +13,26 @@ import 'package:app/screens/newTransferPage.dart';
 import 'package:app/screens/transferDetails.dart';
 
 class TransferPage extends StatefulWidget {
-  const TransferPage({Key? key}) : super(key: key);
-
+  const TransferPage({Key? key, required this.userObj}) : super(key: key);
+  final User userObj;
   @override
   _TransferPageState createState() => _TransferPageState();
 }
 
 class _TransferPageState extends State<TransferPage> {
-  var userInstance = new User(
-      id: 2,
-      email: "user2prixbanque@gmail.com",
-      token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTUyMzU2NTMsIm5iZiI6MTYxOTIzNTY1MywidXNlcmlkIjoidXNlcjJwcml4YmFucXVlQGdtYWlsLmNvbSJ9.DZ6Se65hai1w91hU0PCwC7-bVXZY8jidvETg0_RlEBs",
-      firstName: "Eikichi",
-      lastName: "Onizuka",
-      userAccount: 2);
+  // var userInstance = new User(
+  //     id: 2,
+  //     email: "user2prixbanque@gmail.com",
+  //     token:
+  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTUyMzU2NTMsIm5iZiI6MTYxOTIzNTY1MywidXNlcmlkIjoidXNlcjJwcml4YmFucXVlQGdtYWlsLmNvbSJ9.DZ6Se65hai1w91hU0PCwC7-bVXZY8jidvETg0_RlEBs",
+  //     firstName: "Eikichi",
+  //     lastName: "Onizuka",
+  //     userAccount: 2);
 
   late List<Transfer> userTransfer;
 
   Future<List<Transfer>> getTransferList() async {
-    userTransfer = await getAllTransfers(userInstance);
+    userTransfer = await getAllTransfers(widget.userObj);
 
     return userTransfer;
   }
@@ -42,7 +42,9 @@ class _TransferPageState extends State<TransferPage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
         child: Scaffold(
-            drawer: AppDrawer(),
+            drawer: AppDrawer(
+              userObj: widget.userObj,
+            ),
             appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Colors.blue, //change your color here
@@ -68,7 +70,7 @@ class _TransferPageState extends State<TransferPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (BuildContext context) => NewTransferPage(
-                                                  userObj: userInstance,
+                                                  userObj: widget.userObj,
                                                 ))),
                                   },
                               child: const SizedBox(
@@ -111,7 +113,7 @@ class _TransferPageState extends State<TransferPage> {
                                 ListTile(
                                   // contentPadding: EdgeInsets.only(left: 15),
                                   leading: Icon(
-                                    item?.from == userInstance.email ? Icons.upload_rounded : Icons.download_rounded,
+                                    item?.from == widget.userObj.email ? Icons.upload_rounded : Icons.download_rounded,
                                     color: Colors.green,
                                   ),
                                   trailing: IconButton(
@@ -124,12 +126,12 @@ class _TransferPageState extends State<TransferPage> {
                                               MaterialPageRoute(
                                                   builder: (BuildContext context) => TransferDetailPage(
                                                         transferData: item,
-                                                        myUser: userInstance,
+                                                        myUser: widget.userObj,
                                                       )))
                                         }
                                     },
                                   ),
-                                  title: Text(item?.from == userInstance.email ? "${item?.to}" : "${item?.from}"),
+                                  title: Text(item?.from == widget.userObj.email ? "${item?.to}" : "${item?.from}"),
                                   subtitle: Text("amount : ${item?.amount}"),
                                   onTap: () => {},
                                 ),
@@ -140,7 +142,7 @@ class _TransferPageState extends State<TransferPage> {
                                 ListTile(
                                   // contentPadding: EdgeInsets.only(left: 15),
                                   leading: Icon(
-                                    item.to == userInstance.email ? Icons.download_rounded : Icons.upload_rounded,
+                                    item.to == widget.userObj.email ? Icons.download_rounded : Icons.upload_rounded,
                                     color: Colors.blue,
                                   ),
                                   trailing: IconButton(
@@ -151,11 +153,11 @@ class _TransferPageState extends State<TransferPage> {
                                           MaterialPageRoute(
                                               builder: (BuildContext context) => TransferDetailPage(
                                                     transferData: item,
-                                                    myUser: userInstance,
+                                                    myUser: widget.userObj,
                                                   )))
                                     },
                                   ),
-                                  title: Text(item.from == userInstance.email ? "${item.to}" : "${item.from}"),
+                                  title: Text(item.from == widget.userObj.email ? "${item.to}" : "${item.from}"),
                                   subtitle: Text("amount : ${item.amount}"),
                                   onTap: () => {},
                                 ),
@@ -166,7 +168,7 @@ class _TransferPageState extends State<TransferPage> {
                                 ListTile(
                                   // contentPadding: EdgeInsets.only(left: 15),
                                   leading: Icon(
-                                    item?.from == userInstance.email ? Icons.upload_rounded : Icons.download_rounded,
+                                    item?.from == widget.userObj.email ? Icons.upload_rounded : Icons.download_rounded,
                                     color: Colors.red,
                                   ),
                                   trailing: IconButton(
@@ -179,12 +181,12 @@ class _TransferPageState extends State<TransferPage> {
                                               MaterialPageRoute(
                                                   builder: (BuildContext context) => TransferDetailPage(
                                                         transferData: item,
-                                                        myUser: userInstance,
+                                                        myUser: widget.userObj,
                                                       )))
                                         }
                                     },
                                   ),
-                                  title: Text(item?.from == userInstance.email ? "${item?.to}" : "${item?.from}"),
+                                  title: Text(item?.from == widget.userObj.email ? "${item?.to}" : "${item?.from}"),
                                   subtitle: Text("amount : ${item?.amount}"),
                                   onTap: () => {},
                                 ),

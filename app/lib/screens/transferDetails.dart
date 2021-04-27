@@ -125,8 +125,6 @@ class _TransferDetailPageState extends State<TransferDetailPage> {
                           padding: EdgeInsets.all(25),
                           child: Column(children: [
                             Card(
-                              // shadowColor: widget.transferData.verificationTry < 3 ? Colors.blue : Colors.red,
-                              // elevation: 5,
                               clipBehavior: Clip.antiAlias,
                               child: Column(
                                 children: [
@@ -176,35 +174,65 @@ class _TransferDetailPageState extends State<TransferDetailPage> {
                                           ),
                                         ),
                                         const SizedBox(height: 10),
-                                        TextFormField(
-                                          enabled: widget.transferData.verificationTry < 3 ? true : false,
-                                          controller: answerInputController,
-                                          style: TextStyle(color: Color(0xFF2e3440)),
-                                          decoration: InputDecoration(
-                                            border: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                                width: 1.0,
+                                        widget.transferData.verificationTry < 3
+                                            ? TextFormField(
+                                                enabled: widget.transferData.from != widget.myUser.email ? true : false,
+                                                controller: answerInputController,
+                                                style: TextStyle(color: Color(0xFF2e3440)),
+                                                decoration: InputDecoration(
+                                                  border: UnderlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Colors.blue,
+                                                      width: 1.0,
+                                                    ),
+                                                  ),
+                                                  disabledBorder: UnderlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Colors.red,
+                                                      width: 1.0,
+                                                    ),
+                                                  ),
+                                                  labelText: 'Transfer Answer',
+                                                  prefixIcon: Icon(
+                                                    Icons.query_builder,
+                                                  ),
+                                                ),
+                                                validator: (String? value) {
+                                                  if (value == null || value.isEmpty) {
+                                                    return 'Please enter a valid answer';
+                                                  }
+                                                  return null;
+                                                },
+                                              )
+                                            : TextFormField(
+                                                enabled: false,
+                                                controller: answerInputController,
+                                                style: TextStyle(color: Color(0xFF2e3440)),
+                                                decoration: InputDecoration(
+                                                  border: UnderlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Colors.blue,
+                                                      width: 1.0,
+                                                    ),
+                                                  ),
+                                                  disabledBorder: UnderlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Colors.red,
+                                                      width: 1.0,
+                                                    ),
+                                                  ),
+                                                  labelText: 'Transfer Answer',
+                                                  prefixIcon: Icon(
+                                                    Icons.query_builder,
+                                                  ),
+                                                ),
+                                                validator: (String? value) {
+                                                  if (value == null || value.isEmpty) {
+                                                    return 'Please enter a valid answer';
+                                                  }
+                                                  return null;
+                                                },
                                               ),
-                                            ),
-                                            disabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.red,
-                                                width: 1.0,
-                                              ),
-                                            ),
-                                            labelText: 'Transfer Answer',
-                                            prefixIcon: Icon(
-                                              Icons.query_builder,
-                                            ),
-                                          ),
-                                          validator: (String? value) {
-                                            if (value == null || value.isEmpty) {
-                                              return 'Please enter a valid answer';
-                                            }
-                                            return null;
-                                          },
-                                        ),
                                       ])),
                                   widget.transferData.verificationTry < 3
                                       ? ButtonBar(
@@ -224,7 +252,9 @@ class _TransferDetailPageState extends State<TransferDetailPage> {
                                                       .then((value) => Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (BuildContext context) => TransferPage())))
+                                                              builder: (BuildContext context) => TransferPage(
+                                                                    userObj: widget.myUser,
+                                                                  ))))
                                                       .onError((error, stackTrace) => {
                                                             setState(() {
                                                               widget.transferData.verificationTry =
@@ -269,11 +299,13 @@ class _TransferDetailPageState extends State<TransferDetailPage> {
                                               TextButton(
                                                 onPressed: () async {
                                                   print("bonjour groupe");
-                                                  await destroyTransfer(widget.myUser, widget.transferData).then(
-                                                      (value) => Navigator.push(
+                                                  await destroyTransfer(widget.myUser, widget.transferData)
+                                                      .then((value) => Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (BuildContext context) => TransferPage())));
+                                                              builder: (BuildContext context) => TransferPage(
+                                                                    userObj: widget.myUser,
+                                                                  ))));
                                                 },
                                                 child: const Text('Delete', style: TextStyle(color: Colors.red)),
                                               ),

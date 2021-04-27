@@ -77,7 +77,9 @@ class _NewTransferPageState extends State<NewTransferPage> {
         value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
         child: Scaffold(
             // resizeToAvoidBottomInset: false,
-            drawer: AppDrawer(),
+            drawer: AppDrawer(
+              userObj: widget.userObj,
+            ),
             appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Colors.blue, //change your color here
@@ -258,8 +260,12 @@ class _NewTransferPageState extends State<NewTransferPage> {
                                     .then((value) => {
                                           if (value == "201")
                                             {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(builder: (BuildContext context) => TransferPage()))
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext context) => TransferPage(
+                                                            userObj: widget.userObj,
+                                                          )))
                                             }
                                         })
                                     .catchError((e) {

@@ -19,6 +19,7 @@ Future<List<Transfer>> getAllTransfers(User userCredentials) async {
     if (response.statusCode == 200) {
       List<Transfer> userTransfer;
       userTransfer = (json.decode(response.body) as List).map((i) => Transfer.fromJson(i)).toList();
+      userTransfer.sort((a, b) => -a.createdAt.compareTo(b.createdAt));
 
       return userTransfer;
     } else {

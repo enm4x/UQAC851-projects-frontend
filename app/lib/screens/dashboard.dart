@@ -40,7 +40,9 @@ class _DashboardPageState extends State<DashboardPage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
         child: Scaffold(
-            drawer: AppDrawer(),
+            drawer: AppDrawer(
+              userObj: widget.userObj,
+            ),
             appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Colors.blue, //change your color here
