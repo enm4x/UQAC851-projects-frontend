@@ -90,7 +90,7 @@ Container invoiceItems(User userObj, List<Invoice> invoicesList, int index, Buil
             trailing: invoiceAmount(invoicesList, index, userObj),
             title: invoiceActor(invoicesList, index, userObj),
             subtitle: invoiceDate(invoicesList, index),
-            onTap: () => {_showMyDialog(userObj, 890, invoicesList, index, context)}),
+            onTap: () => {_showMyDialog(userObj, invoicesList[index].amount, invoicesList, index, context)}),
       ],
     ),
   );
