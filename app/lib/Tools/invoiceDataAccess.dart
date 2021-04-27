@@ -70,6 +70,8 @@ Future<List<Invoice>> getPendingInvoices(User userObj) async {
         headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"});
     if (response.statusCode == 200) {
       List<Invoice> invoices;
+      print("bonjour");
+
       invoices = (json.decode(response.body) as List).map((i) => Invoice.fromJson(i)).toList();
       invoices = invoices.where((x) => x.acquitted == false && x.receiverId == userObj.id).toList();
       invoices.sort((a, b) => -a.dueDate.compareTo(b.dueDate));

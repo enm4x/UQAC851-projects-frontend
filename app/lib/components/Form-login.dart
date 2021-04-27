@@ -108,6 +108,7 @@ class _FormLoginWidgetState extends State<FormLogin> {
                                                 setState(
                                                   () {
                                                     widget.userObj.userAccount = value.id;
+                                                    widget.userObj.id = value.userId;
                                                   },
                                                 ),
                                                 Navigator.push(
