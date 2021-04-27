@@ -17,23 +17,6 @@ class Transfer {
   bool verified;
   int verificationTry;
 
-//  "created_at": "2021-04-24T23:17:02.864Z",
-//         "updated_at": "2021-04-24T23:19:22.779Z",
-//         "id": 1,
-//         "amount": 10,
-//         "from": "user1prixbanque@gmail.com",
-//         "to": "user2prixbanque@gmail.com",
-//         "sender_id": 1,
-//         "receiver_id": 2,
-//         "transfer": true,
-//         "instant": true,
-//         "scheduled": false,
-//         "date": "2021-04-22T00:00:00Z",
-//         "question": "To be or not ?",
-//         "answer": "1234",
-//         "verified": false,
-//         "try": 3
-//
   Transfer(
       {required this.createdAt,
       required this.updatedAt,
