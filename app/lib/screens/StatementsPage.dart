@@ -8,9 +8,6 @@ import 'package:app/models/user.dart';
 import 'package:app/models/operation.dart';
 //Tools import
 import 'package:app/Tools/retrieve.dart';
-//Screens import
-import 'package:app/screens/newTransferPage.dart';
-import 'package:app/screens/transferDetails.dart';
 
 class StatementsPage extends StatefulWidget {
   const StatementsPage({Key? key, required this.userObj}) : super(key: key);
