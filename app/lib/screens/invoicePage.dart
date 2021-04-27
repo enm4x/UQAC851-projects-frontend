@@ -150,8 +150,8 @@ Container invoiceItems(User userObj, List<Invoice> invoicesList, int index, Buil
             Icons.upload_rounded,
             color: Colors.green,
           ),
-          trailing: invoiceAmount(invoicesList, index),
-          title: invoiceActor(invoicesList, index),
+          trailing: invoiceAmount(invoicesList, index, userObj),
+          title: invoiceActor(invoicesList, index, userObj),
           subtitle: invoiceDate(invoicesList, index),
         )
       ],
