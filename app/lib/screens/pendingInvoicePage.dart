@@ -48,7 +48,6 @@ class _PendingInvoicePage extends State<PendingInvoicePage> {
               future: invoices,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  print(snapshot.data!.length);
                   return displayPendingInvoiceList(widget.userObj, snapshot.data!, context);
                 } else {
                   return Expanded(child: Center(child: CircularProgressIndicator()));
