@@ -1,7 +1,7 @@
 import 'package:app/Tools/methods.dart';
 import 'package:app/Tools/retrieve.dart';
+import 'package:app/Tools/auth.dart';
 import 'package:app/components/AppDrawer.dart';
-import 'package:app/models/bankAccount.dart';
 import 'package:app/models/operation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,18 +17,18 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  late Future<BankAccount> bankAccount;
+  late Future<int> balance;
   late Future<List<Operation>> operations;
 
   @override
   void initState() {
     super.initState();
-    bankAccount = initializeBankAccount();
+    balance = initializeBankAccount();
     operations = initOperations();
   }
 
-  Future<BankAccount> initializeBankAccount() async {
-    return await getBankAccount(widget.userObj);
+  Future<int> initializeBankAccount() async {
+    return await getUserAccountBalance(widget.userObj);
   }
 
   Future<List<Operation>> initOperations() async {
@@ -58,20 +58,23 @@ class _DashboardPageState extends State<DashboardPage> {
                 child: Container(
               color: Colors.white,
               child: Column(children: <Widget>[
-                FutureBuilder<BankAccount>(
-                  future: bankAccount,
+                FutureBuilder<int>(
+                  future: balance,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => StatementsPage()),
+                            MaterialPageRoute(
+                                builder: (context) => StatementsPage(
+                                      userObj: widget.userObj,
+                                    )),
                           );
                         },
                         child: Container(
                           color: Colors.grey,
-                          child: topArea(snapshot.data!.balance.toString()),
+                          child: topArea(snapshot.data!.toString()),
                         ),
                       );
                     } else {
@@ -87,7 +90,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   future: operations,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return displayOperationList(snapshot.data!);
+                      return displayOperationList(snapshot.data!, widget.userObj.email);
                     } else {
                       return Center(
                           child: Container(

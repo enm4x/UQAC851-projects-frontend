@@ -34,18 +34,20 @@ Card topArea(String savings) => Card(
           )),
     );
 
-Container displayOperationList(List<Operation> operationsList) {
+Container displayOperationList(List<Operation> operationsList, String accountEmail) {
   if (operationsList.length >= 6) {
-    return Container(child: Column(children: <Widget>[for (var i = 0; i < 6; i++) operationItems(operationsList, i)]));
+    return Container(
+        child: Column(children: <Widget>[for (var i = 0; i < 6; i++) operationItems(operationsList, i, accountEmail)]));
   } else {
     return new Container(
         child: Column(children: <Widget>[
-      for (var i = 0; i < operationsList.length; i++) operationItems(operationsList, i),
+      for (var i = 0; i < operationsList.length; i++) operationItems(operationsList, i, accountEmail),
     ]));
   }
 }
 
-Container operationItems(List<Operation> operationsList, int index, {Color oddColour = Colors.white}) {
+Container operationItems(List<Operation> operationsList, int index, String accountEmail,
+    {Color oddColour = Colors.white}) {
   return Container(
     decoration: BoxDecoration(color: oddColour),
     padding: EdgeInsets.only(top: 21.8, bottom: 21.8, left: 5.0, right: 5.0),
@@ -53,7 +55,10 @@ Container operationItems(List<Operation> operationsList, int index, {Color oddCo
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[operationActor(operationsList, index), operationAmount(operationsList, index)],
+          children: <Widget>[
+            operationActor(operationsList, index),
+            operationAmount(operationsList, index, accountEmail)
+          ],
         ),
         SizedBox(
           height: 10.0,
@@ -78,8 +83,8 @@ Text operationActor(List<Operation> operationsList, int index) {
   }
 }
 
-Text operationAmount(List<Operation> operationsList, int index) {
-  if (operationsList[index].receiverId == 1) {
+Text operationAmount(List<Operation> operationsList, int index, String accountEmail) {
+  if (operationsList[index].to == accountEmail) {
     return Text(r"+ $" + operationsList[index].amount.toString(), style: TextStyle(fontSize: 16.0));
   } else {
     return Text(r"- $" + operationsList[index].amount.toString(), style: TextStyle(fontSize: 16.0));

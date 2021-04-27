@@ -1,14 +1,41 @@
+//Default import
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+//Component import
+import 'package:app/components/AppDrawer.dart';
+//Models import
+import 'package:app/models/user.dart';
+import 'package:app/models/operation.dart';
+//Tools import
+import 'package:app/Tools/retrieve.dart';
+//Screens import
+import 'package:app/screens/newTransferPage.dart';
+import 'package:app/screens/transferDetails.dart';
 
-class StatementsPage extends StatelessWidget {
+class StatementsPage extends StatefulWidget {
+  const StatementsPage({Key? key, required this.userObj}) : super(key: key);
+  final User userObj;
+  @override
+  _StatementsPageState createState() => _StatementsPageState();
+}
+
+class _StatementsPageState extends State<StatementsPage> {
+  late List<Operation> userTransfer;
+
+  Future<List<Operation>> getTransferList() async {
+    userTransfer = await getOperations(widget.userObj);
+
+    return userTransfer;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarIconBrightness: Brightness.light),
+        value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
         child: Scaffold(
+            drawer: AppDrawer(
+              userObj: widget.userObj,
+            ),
             appBar: AppBar(
                 iconTheme: IconThemeData(
                   color: Colors.blue, //change your color here
@@ -20,21 +47,64 @@ class StatementsPage extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                 ),
                 centerTitle: true),
-            body: Container(
-              color: Colors.grey,
-              child: Column(
-                children: <Widget>[],
-              ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                print("user info");
-              },
-              backgroundColor: Color(0xFFd8dee9),
-              child: Icon(
-                Icons.add,
-                color: Color(0xFF2e3440),
-              ),
-            )));
+            body: Center(
+                child: FutureBuilder<List<Operation>>(
+                    future: getTransferList(),
+                    builder: (BuildContext context, AsyncSnapshot<List<Operation>> snapshot) {
+                      if (snapshot.hasData) {
+                        return ListTileTheme(
+                            // contentPadding: const EdgeInsets.all(5.0),
+                            // shape: ShapeBorder.lerp(null, null, 10),
+                            child: ListView.builder(
+                                itemCount: snapshot.data?.length,
+                                itemBuilder: (context, index) {
+                                  final item = snapshot.data?[index];
+
+                                  if (item?.acquitted == true) {
+                                    return Column(children: [
+                                      ListTile(
+                                        // contentPadding: EdgeInsets.only(left: 15),
+                                        leading: Icon(
+                                          item?.from == widget.userObj.email
+                                              ? Icons.upload_rounded
+                                              : Icons.download_rounded,
+                                          color: Colors.green,
+                                        ),
+                                        trailing: IconButton(
+                                          icon: Text("amount : ${item?.amount}"),
+                                          onPressed: () => {},
+                                        ),
+                                        title:
+                                            Text(item?.from == widget.userObj.email ? "${item?.to}" : "${item?.from}"),
+                                        subtitle: item?.invoice == true ? Text("Invoice") : Text("Transfer"),
+                                        onTap: () => {},
+                                      ),
+                                      Divider(),
+                                    ]);
+                                  } else {
+                                    return Column(children: [
+                                      ListTile(
+                                        // contentPadding: EdgeInsets.only(left: 15),
+                                        leading: Icon(
+                                          item?.from == widget.userObj.email
+                                              ? Icons.upload_rounded
+                                              : Icons.download_rounded,
+                                          color: Colors.blue,
+                                        ),
+                                        trailing: Text("${item?.amount}"),
+                                        title:
+                                            Text(item?.from == widget.userObj.email ? "${item?.to}" : "${item?.from}"),
+                                        subtitle: item?.invoice == true ? Text("Invoice") : Text("Transfer"),
+
+                                        onTap: () => {},
+                                      ),
+                                      Divider(),
+                                    ]);
+                                  }
+                                }));
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }))));
   }
 }
