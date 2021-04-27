@@ -1,69 +1,68 @@
-# UQAC851 Software Engineering Projects Frontend
+[![UQAC851 - frontend](https://github.com/maxdvlg/UQAC851-Projects-Frontend/actions/workflows/dart.yml/badge.svg)](https://github.com/maxdvlg/UQAC851-Projects-Frontend/actions/workflows/dart.yml)
 
+# UQAC851 Software Engineering Projects Frontend
 Course : UQAC851 - Software Engineering
 
-Projetc : PrixBanque | A software engineering classes projects  
+Project : PrixBanque | A software engineering classes projects  
 
 Framework : Flutter 
+- version :  2.0.4
 
-- version : Flutter 2.0.4
 
-Status : [![UQAC851 - frontend](https://github.com/maxdvlg/UQAC851-Projects-Frontend/actions/workflows/dart.yml/badge.svg)](https://github.com/maxdvlg/UQAC851-Projects-Frontend/actions/workflows/dart.yml)
 
 # :heavy_exclamation_mark: Related projects : 
 
-- :bank: PrixBanque_backend : [https://github.com/ethicnology/uqac-851-software-engineering-api](https://github.com/ethicnology/uqac-851-software-engineering-api)
+- :bank: [**back-end** : prix-banque-api ](https://github.com/ethicnology/uqac-851-software-engineering-api)
 
 # :construction_worker: How to install this project
 
-## Local/Native installation 
+## Installation
 
-### Install dependencies
-
-- [Flutter & Dart](https://flutter.dev/docs/get-started/install)
-- [Android studio](https://developer.android.com/studio)
+### Prerequisites
+- [Flutter & Dart](https://flutter.dev/docs/get-started/install) is enough if you just want to build web version for testing purposes
+- [Android studio](https://developer.android.com/studio) is needed for development and if you want to build Android & IOS applications
 
 ### Clone the project 
-
 ``` 
 git clone git@github.com:maxdvlg/UQAC851-projects-frontend.git 
+cd UQAC851-projects-frontend
 ```
 
-### Add a .env file
-
-You must create a .env file containing the local variable that will allow the project to be built with the correct sources
-
+### Configuration
+Rename **.env.example** to .env in **./app/** folder :
+```sh
+mv app/.env.example app/.env
 ```
-# Create a .env file a the root of the project
-touch app/.env
 
-# Define the variable URL_PROD
-# URL_PROD=myapiadress.com:port in the .env file
-echo URL_PROD=myapiadress.com:port >> app/.env
+Specify the API URL docker network or VPS :
+```ini
+URL_PROD=dissidence.dev:9999 # if docker use 172.x.x.x:1984
+```
+
+# :rocket: Usage
+```sh
+flutter doctor # verify your installation
+```
+
+Build web version
+```sh
+flutter run -d chrome
 ```
 
 # Testing
-
 - pre-requisites: you must finish the task [How to install this project]
 
-
-### Execute all tests available
-
+### Execute all tests
+Change directory to the **app** folder
+```sh
+cd app
 ```
-# Change directory to the root folder
-cd .../app
-
-# Perform global test
-$ flutter test
-
+Perform global test
+```sh
+flutter test  
 ```
-### Execute a specific test
-
-```
-# Change directory to the root folder
-cd .../app
-
-# Perform specific test
+### Execute specific test
+To execute specific test you can execute 
+```sh
 flutter test test/myspecificfunctions_test.dart
-
 ```
