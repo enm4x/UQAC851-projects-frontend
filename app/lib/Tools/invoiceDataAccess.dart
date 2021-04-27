@@ -16,7 +16,6 @@ Future<String> createInvoice(User userObj, InvoiceToSend invoice) async {
       'due_date': '${invoice.dueDate}',
     },
   );
-  print(response.statusCode);
   return response.statusCode.toString();
 }
 
@@ -73,7 +72,7 @@ Future<List<Invoice>> getPendingInvoices(User userObj) async {
       List<Invoice> invoices;
       invoices = (json.decode(response.body) as List).map((i) => Invoice.fromJson(i)).toList();
       invoices = invoices.where((x) => x.acquitted == false && x.receiverId == userObj.id).toList();
-      invoices.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+      invoices.sort((a, b) => -a.dueDate.compareTo(b.dueDate));
       return invoices;
     } else {
       throw Exception('Can not retrieve pending invoices');

@@ -173,7 +173,7 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   invoiceData.amount = int.parse(amountInputController.text);
-                                  invoiceData.dueDate = "2021-04-27";
+                                  invoiceData.dueDate = dateController.text;
                                   invoiceData.to = emailReceiverInputController.text;
                                 });
                                 await createInvoice(widget.userObj, invoiceData)

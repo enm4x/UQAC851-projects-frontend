@@ -5,9 +5,7 @@ Card topArea(String savings) => Card(
       margin: EdgeInsets.all(15.0),
       elevation: 1.0,
       child: Container(
-          decoration: BoxDecoration(
-              gradient: RadialGradient(
-                  colors: [Color(0xFF015FFF), Color(0xFF015FFF)])),
+          decoration: BoxDecoration(gradient: RadialGradient(colors: [Color(0xFF015FFF), Color(0xFF015FFF)])),
           padding: EdgeInsets.all(5.0),
           // color: Color(0xFF015FFF),
           child: Column(
@@ -28,8 +26,7 @@ Card topArea(String savings) => Card(
               Center(
                 child: Padding(
                   padding: EdgeInsets.all(5.0),
-                  child: Text(r"$ " + savings,
-                      style: TextStyle(color: Colors.white, fontSize: 24.0)),
+                  child: Text(r"$ " + savings, style: TextStyle(color: Colors.white, fontSize: 24.0)),
                 ),
               ),
               SizedBox(height: 10.0),
@@ -39,22 +36,16 @@ Card topArea(String savings) => Card(
 
 Container displayOperationList(List<Operation> operationsList) {
   if (operationsList.length >= 6) {
-    return Container(
-        child: Column(children: <Widget>[
-      for (var i = 0; i < 6; i++)
-          operationItems(operationsList, i)
-        ]));
+    return Container(child: Column(children: <Widget>[for (var i = 0; i < 6; i++) operationItems(operationsList, i)]));
   } else {
     return new Container(
         child: Column(children: <Widget>[
-      for (var i = 0; i < operationsList.length; i++)
-        operationItems(operationsList, i),
+      for (var i = 0; i < operationsList.length; i++) operationItems(operationsList, i),
     ]));
   }
 }
 
-Container operationItems(List<Operation> operationsList, int index,
-    {Color oddColour = Colors.white}) {
+Container operationItems(List<Operation> operationsList, int index, {Color oddColour = Colors.white}) {
   return Container(
     decoration: BoxDecoration(color: oddColour),
     padding: EdgeInsets.only(top: 21.8, bottom: 21.8, left: 5.0, right: 5.0),
@@ -62,10 +53,7 @@ Container operationItems(List<Operation> operationsList, int index,
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            operationActor(operationsList, index),
-            operationAmount(operationsList, index)
-          ],
+          children: <Widget>[operationActor(operationsList, index), operationAmount(operationsList, index)],
         ),
         SizedBox(
           height: 10.0,
@@ -84,35 +72,28 @@ Container operationItems(List<Operation> operationsList, int index,
 
 Text operationActor(List<Operation> operationsList, int index) {
   if (operationsList[index].receiverId == 1) {
-    return Text("from " + operationsList[index].from,
-        style: TextStyle(fontSize: 16.0));
+    return Text("from " + operationsList[index].from, style: TextStyle(fontSize: 16.0));
   } else {
-    return Text("to " + operationsList[index].to,
-        style: TextStyle(fontSize: 16.0));
+    return Text("to " + operationsList[index].to, style: TextStyle(fontSize: 16.0));
   }
 }
 
 Text operationAmount(List<Operation> operationsList, int index) {
   if (operationsList[index].receiverId == 1) {
-    return Text(r"+ $" + operationsList[index].amount.toString(),
-        style: TextStyle(fontSize: 16.0));
+    return Text(r"+ $" + operationsList[index].amount.toString(), style: TextStyle(fontSize: 16.0));
   } else {
-    return Text(r"- $" + operationsList[index].amount.toString(),
-        style: TextStyle(fontSize: 16.0));
+    return Text(r"- $" + operationsList[index].amount.toString(), style: TextStyle(fontSize: 16.0));
   }
 }
 
 Text operationDate(List<Operation> operationsList, int index) {
-  return Text(operationsList[index].createdAt,
-      style: TextStyle(color: Colors.grey, fontSize: 14.0));
+  return Text(operationsList[index].createdAt, style: TextStyle(color: Colors.grey, fontSize: 14.0));
 }
 
 Text operationType(List<Operation> operationsList, int index) {
   if (operationsList[index].invoice == true) {
-    return Text("invoice",
-        style: TextStyle(color: Colors.grey, fontSize: 14.0));
+    return Text("invoice", style: TextStyle(color: Colors.grey, fontSize: 14.0));
   } else {
-    return Text("transfer",
-        style: TextStyle(color: Colors.grey, fontSize: 14.0));
+    return Text("transfer", style: TextStyle(color: Colors.grey, fontSize: 14.0));
   }
 }
