@@ -15,7 +15,6 @@ class CreateInvoicePage extends StatefulWidget {
   _CreateInvoicePageState createState() => _CreateInvoicePageState();
 }
 
-// This is the private State class that goes with MyStatefulWidget.
 class _CreateInvoicePageState extends State<CreateInvoicePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailReceiverInputController = TextEditingController();

@@ -2,6 +2,8 @@ import 'package:app/Tools/invoiceDataAccess.dart';
 import 'package:app/components/AppDrawer.dart';
 import 'package:app/components/InvoiceComponent.dart';
 import 'package:app/models/invoice.dart';
+import 'package:app/screens/unpaidInvoice.dart';
+import 'pendingInvoicePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:app/models/user.dart';
@@ -89,7 +91,10 @@ class _InvoicePageState extends State<InvoicePage> {
                                 leading: Icon(Icons.warning, color: Colors.red),
                                 title: Text("Facture impayée"),
                                 onTap: () {
-                                  print("tapped");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => UnpaidInvoicePage(userObj: userObj)),
+                                  );
                                 },
                               ),
                               Divider(),
@@ -98,9 +103,12 @@ class _InvoicePageState extends State<InvoicePage> {
                                   Icons.check,
                                   color: Colors.green,
                                 ),
-                                title: Text("Facture Payée"),
+                                title: Text("Facture en Atttente"),
                                 onTap: () {
-                                  print("tapped");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => PendingInvoicePage(userObj: userObj)),
+                                  );
                                 },
                               ),
                               Divider(),
@@ -112,7 +120,7 @@ class _InvoicePageState extends State<InvoicePage> {
                                 future: invoices,
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    return displayInvoiceList(snapshot.data!);
+                                    return displayInvoiceList(userObj, snapshot.data!);
                                   } else {
                                     return Text('No Recent Invoices');
                                   }

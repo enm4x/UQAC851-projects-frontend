@@ -56,6 +56,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 centerTitle: true),
             body: Center(
                 child: Container(
+              color: Colors.white,
               child: Column(children: <Widget>[
                 FutureBuilder<BankAccount>(
                   future: bankAccount,
