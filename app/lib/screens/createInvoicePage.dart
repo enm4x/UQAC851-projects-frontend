@@ -15,7 +15,6 @@ class CreateInvoicePage extends StatefulWidget {
   _CreateInvoicePageState createState() => _CreateInvoicePageState();
 }
 
-// This is the private State class that goes with MyStatefulWidget.
 class _CreateInvoicePageState extends State<CreateInvoicePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailReceiverInputController = TextEditingController();
@@ -174,7 +173,7 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   invoiceData.amount = int.parse(amountInputController.text);
-                                  invoiceData.dueDate = "2021-04-27";
+                                  invoiceData.dueDate = dateController.text;
                                   invoiceData.to = emailReceiverInputController.text;
                                 });
                                 await createInvoice(widget.userObj, invoiceData)

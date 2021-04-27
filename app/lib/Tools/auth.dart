@@ -47,16 +47,16 @@ Future<String> userRegistration(User userInstance, String userPassword) async {
   }
 }
 
-Future<String> getUserInfo(User userObj) async {
+Future<int> getUserInfo(User userObj) async {
   var client = http.Client();
   try {
     var response = await client.get(
       Uri.https(env["URL_PROD"].toString(), "/users/${userObj.email}"),
       headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"},
     );
-
     if (response.statusCode == 200) {
-      return response.body.toString();
+      Map res = jsonDecode(response.body);
+      return res['id'];
     } else {
       throw Exception('Can not retrieve user informations');
     }
@@ -147,6 +147,25 @@ Future<BankAccount> getUserBankAccount(User userObj) async {
       return userAccount;
     } else {
       throw Exception('Failed to create bank account');
+    }
+  } finally {
+    client.close();
+  }
+}
+
+Future<int> getUserAccountBalance(User userObj) async {
+  var client = http.Client();
+
+  try {
+    var response = await client.get(
+        Uri.https(env["URL_PROD"].toString(), "/users/${userObj.email}/banks/${userObj.userAccount}"),
+        headers: {HttpHeaders.authorizationHeader: "Bearer ${userObj.token}"});
+
+    if (response.statusCode == 200) {
+      Map res = json.decode(response.body);
+      return res['balance'];
+    } else {
+      throw Exception('Can not retrieve account');
     }
   } finally {
     client.close();

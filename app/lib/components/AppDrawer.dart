@@ -1,5 +1,6 @@
 import 'package:app/screens/dashboard.dart';
 import 'package:app/screens/invoicePage.dart';
+import 'package:app/screens/StatementsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:app/screens/transferPage.dart';
 import 'package:app/models/user.dart';
@@ -53,8 +54,12 @@ class _AppDrawerState extends State<AppDrawer> {
                 leading: Icon(Icons.receipt),
                 title: Text('Statements'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => StatementsPage(
+                                userObj: widget.userObj,
+                              )));
                 }),
             Divider(),
             ListTile(

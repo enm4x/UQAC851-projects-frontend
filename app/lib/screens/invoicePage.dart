@@ -1,6 +1,9 @@
 import 'package:app/Tools/invoiceDataAccess.dart';
 import 'package:app/components/AppDrawer.dart';
+import 'package:app/components/InvoiceComponent.dart';
 import 'package:app/models/invoice.dart';
+import 'package:app/screens/pendingInvoicePage.dart';
+import 'package:app/screens/unpaidInvoice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:app/models/user.dart';
@@ -16,14 +19,6 @@ class InvoicePage extends StatefulWidget {
 
 class _InvoicePageState extends State<InvoicePage> {
   late Future<List<Invoice>> invoices;
-  // var userObj = new User(
-  //     id: 1,
-  //     email: "user1prixbanque@gmail.com",
-  //     token:
-  //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTUxMTcxNjksIm5iZiI6MTYxOTExNzE2OSwidXNlcmlkIjoidXNlcjFwcml4YmFucXVlQGdtYWlsLmNvbSJ9.GZgurQ5LpUdQ2wM806l5r019DC73qrNUZg5DQkancZw",
-  //     firstName: "User1",
-  //     lastName: "Lambda",
-  //     userAccount: 1);
 
   @override
   void initState() {
@@ -32,7 +27,7 @@ class _InvoicePageState extends State<InvoicePage> {
   }
 
   Future<List<Invoice>> initInvoice() async {
-    return await getInvoices(widget.userObj);
+    return await getPaidInvoices(widget.userObj);
   }
 
   @override
@@ -84,7 +79,10 @@ class _InvoicePageState extends State<InvoicePage> {
                                 leading: Icon(Icons.warning, color: Colors.red),
                                 title: Text("Facture impayée"),
                                 onTap: () {
-                                  print("tapped");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => UnpaidInvoicePage(userObj: widget.userObj)),
+                                  );
                                 },
                               ),
                               Divider(),
@@ -93,9 +91,13 @@ class _InvoicePageState extends State<InvoicePage> {
                                   Icons.check,
                                   color: Colors.green,
                                 ),
-                                title: Text("Facture Payée"),
+                                title: Text("Facture en Attente"),
                                 onTap: () {
-                                  print("tapped");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => PendingInvoicePage(userObj: widget.userObj)),
+                                  );
                                 },
                               ),
                               Divider(),
@@ -107,7 +109,7 @@ class _InvoicePageState extends State<InvoicePage> {
                                 future: invoices,
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    return Text('found Invoices');
+                                    return displayInvoiceList(widget.userObj, snapshot.data!, context);
                                   } else {
                                     return Text('No Recent Invoices');
                                   }
@@ -120,4 +122,39 @@ class _InvoicePageState extends State<InvoicePage> {
               ),
             )));
   }
+
+  Container displayInvoiceList(User userObj, List<Invoice> invoicesList, BuildContext context) {
+    if (invoicesList.length >= 6) {
+      return Container(
+          child:
+              Column(children: <Widget>[for (var i = 0; i < 6; i++) invoiceItems(userObj, invoicesList, i, context)]));
+    } else {
+      return new Container(
+          child: Column(children: <Widget>[
+        for (var i = 0; i < invoicesList.length; i++) invoiceItems(userObj, invoicesList, i, context),
+      ]));
+    }
+  }
+}
+
+Container invoiceItems(User userObj, List<Invoice> invoicesList, int index, BuildContext context,
+    {Color oddColour = Colors.white}) {
+  return Container(
+    decoration: BoxDecoration(color: oddColour),
+    padding: EdgeInsets.only(top: 21.8, bottom: 21.8, left: 5.0, right: 5.0),
+    child: Column(
+      children: <Widget>[
+        ListTile(
+          // contentPadding: EdgeInsets.only(left: 15),
+          leading: Icon(
+            Icons.upload_rounded,
+            color: Colors.green,
+          ),
+          trailing: invoiceAmount(invoicesList, index),
+          title: invoiceActor(invoicesList, index),
+          subtitle: invoiceDate(invoicesList, index),
+        )
+      ],
+    ),
+  );
 }
