@@ -69,19 +69,6 @@ class _TransferPageState extends State<TransferPage> {
                                   child: Center(
                                     child: Text('Create a new transfer'),
                                   ))))),
-                  // Card(
-                  //     elevation: 5,
-                  //     child: Center(
-                  //         child: InkWell(
-                  //             splashColor: Colors.blue.withAlpha(30),
-                  //             onTap: () {
-                  //               print('Card tapped.');
-                  //             },
-                  //             child: const SizedBox(
-                  //                 height: 100,
-                  //                 child: Center(
-                  //                   child: Text('Show all my transfer'),
-                  //                 ))))),
                   const SizedBox(
                     height: 50,
                     child: Center(child: Text("Previous transfer")),
