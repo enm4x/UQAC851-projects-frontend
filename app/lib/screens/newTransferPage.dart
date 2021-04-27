@@ -117,6 +117,8 @@ class _NewTransferPageState extends State<NewTransferPage> {
                           validator: (value) {
                             if (value == null || value.isEmpty || isEmail(value) == false) {
                               return 'Please enter a valid email';
+                            } else if (value == widget.userObj.email) {
+                              return "Dont be silly, enter a correct email";
                             }
                             return null;
                           },
