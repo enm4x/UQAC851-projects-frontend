@@ -69,7 +69,8 @@ class _NewTransferPageState extends State<NewTransferPage> {
     return regExp.hasMatch(em);
   }
 
-  var task = {'name': "", 'date': DateTime.now()};
+  // var task = {'name': "", 'date': DateTime.now()};
+  var dropDownValue = "Instant";
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +151,7 @@ class _NewTransferPageState extends State<NewTransferPage> {
                         ),
                         SizedBox(height: 20),
                         DropdownButtonFormField(
+                          value: dropDownValue,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Color(0xFFd8dee9),
@@ -160,16 +162,19 @@ class _NewTransferPageState extends State<NewTransferPage> {
                           hint: Text("dropdown"),
                           items: [
                             DropdownMenuItem<String>(
-                              child: Text('instant'),
-                              value: 'one',
+                              child: Text('Instant'),
+                              value: 'Instant',
                             ),
                             DropdownMenuItem<String>(
-                              child: Text('delayed'),
-                              value: 'two',
+                              child: Text('Scheduled'),
+                              value: 'Scheduled',
                             ),
                           ],
-                          value: "one",
-                          onChanged: (value) => {value = value},
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropDownValue = newValue!;
+                            });
+                          },
                         ),
                         SizedBox(height: 20),
                         TextFormField(
@@ -253,7 +258,13 @@ class _NewTransferPageState extends State<NewTransferPage> {
                                   transferData.amount = int.parse(amountInputController.text);
                                   transferData.date = "2021-04-25";
                                   transferData.to = emailReceiverInputController.text;
-                                  transferData.instant = true;
+                                  if (dropDownValue == "Instant") {
+                                    transferData.instant = true;
+                                    transferData.scheduled = false;
+                                  } else {
+                                    transferData.instant = false;
+                                    transferData.scheduled = true;
+                                  }
                                   transferData.question = questionInputController.text;
                                   transferData.answer = answerInputController.text;
                                 });
