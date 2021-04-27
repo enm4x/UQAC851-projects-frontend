@@ -107,7 +107,7 @@ Future<void> _showMyDialog(
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text('balance : ' + balance.toString()),
+              Text('amount : ' + balance.toString()),
               Text('Would you like to pay this invoice ?'),
             ],
           ),
